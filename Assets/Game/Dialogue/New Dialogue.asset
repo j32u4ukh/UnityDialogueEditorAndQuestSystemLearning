@@ -13,20 +13,50 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   nodes:
-  - unique_id: d
+  - unique_id: a
     text: Hello.
     children:
     - b
     - c
+    location:
+      serializedVersion: 2
+      x: 10
+      y: 10
+      width: 200
+      height: 100
   - unique_id: b
     text: Hello, your self.
     children: []
+    location:
+      serializedVersion: 2
+      x: 10
+      y: 80
+      width: 200
+      height: 100
   - unique_id: c
     text: Go away!
     children: []
+    location:
+      serializedVersion: 2
+      x: 10
+      y: 150
+      width: 200
+      height: 100
   - unique_id: 
     text: 123
     children: []
+    location:
+      serializedVersion: 2
+      x: 10
+      y: 220
+      width: 200
+      height: 100
   - unique_id: 
     text: 
     children: []
+    location:
+      serializedVersion: 2
+      x: 10
+      y: 290
+      width: 200
+      height: 100

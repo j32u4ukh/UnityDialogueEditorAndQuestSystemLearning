@@ -32,12 +32,20 @@ namespace RPG.Dialogue.Editor
 
             if(dialogue != null)
             {
-                //Debug.Log($"onOpenDialogue");
+                //Debug.Log("onOpenDialogue");
                 showEditorWindow();
                 return true;
             }
 
             return false;
+        }
+
+        private void OnGUI()
+        {
+            // 參考網站 1: https://docs.unity3d.com/ScriptReference/EditorGUILayout.html
+            EditorGUILayout.LabelField("Apple");
+            EditorGUILayout.LabelField("Orange");
+            EditorGUILayout.LabelField("Pear");
         }
     }
 }

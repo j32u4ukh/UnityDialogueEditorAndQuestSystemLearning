@@ -35,18 +35,27 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
-                string new_text;
+                string new_id, new_text;
 
                 foreach(DialogueNode node in selected_dialogue.getAllNodes())
                 {
+                    EditorGUI.BeginChangeCheck();
+
+                    EditorGUILayout.LabelField("Node:");
+                    new_id = EditorGUILayout.TextField(node.unique_id);
                     new_text = EditorGUILayout.TextField(node.text);
 
-                    if (!new_text.Equals(node.text))
+                    if (EditorGUI.EndChangeCheck())
                     {
-                        node.text = new_text;
-
+                        // 紀錄修改歷程，並取代 EditorUtility.SetDirty(selected_dialogue); 將 selected_dialogue 設為 Dirty，
                         // 告訴 Unity 這個檔案已被修改，要更新 selected_dialogue 的數據，而不只有更新 Inspector
-                        EditorUtility.SetDirty(selected_dialogue);
+                        // 在實際修改 selected_dialogue 前呼叫，才能回到最初的狀態
+                        Undo.RecordObject(selected_dialogue, "Update Dialogue");
+
+                        node.unique_id = new_id;
+
+                        // 更新 DialogueNode 的 text
+                        node.text = new_text;
                     }
                 }
             }

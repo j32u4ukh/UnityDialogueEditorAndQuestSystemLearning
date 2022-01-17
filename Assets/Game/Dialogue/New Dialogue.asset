@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   nodes:
-  - unique_id: a
+  - unique_id: d
     text: Hello.
     children:
     - b

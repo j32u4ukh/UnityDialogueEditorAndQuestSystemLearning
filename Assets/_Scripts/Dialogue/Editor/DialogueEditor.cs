@@ -35,7 +35,20 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
-                EditorGUILayout.LabelField($"Dialogue({selected_dialogue.name})");
+                string new_text;
+
+                foreach(DialogueNode node in selected_dialogue.getAllNodes())
+                {
+                    new_text = EditorGUILayout.TextField(node.text);
+
+                    if (!new_text.Equals(node.text))
+                    {
+                        node.text = new_text;
+
+                        // 告訴 Unity 這個檔案已被修改，要更新 selected_dialogue 的數據，而不只有更新 Inspector
+                        EditorUtility.SetDirty(selected_dialogue);
+                    }
+                }
             }
         }
 

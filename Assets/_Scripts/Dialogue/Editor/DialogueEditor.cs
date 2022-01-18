@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using System;
 
 namespace RPG.Dialogue.Editor
 {
@@ -46,9 +47,15 @@ namespace RPG.Dialogue.Editor
             {
                 processEvents();
 
-                foreach(DialogueNode node in selected_dialogue.getAllNodes())
+                // 先繪製 Connection 再繪製 Node，可避免 Connection 畫到 Node 之上
+                foreach (DialogueNode node in selected_dialogue.getAllNodes())
                 {
-                    onGuiNode(node);
+                    drawConnection(node);
+                }
+
+                foreach (DialogueNode node in selected_dialogue.getAllNodes())
+                {
+                    drawNode(node);
                 }
             }
         }
@@ -83,7 +90,7 @@ namespace RPG.Dialogue.Editor
             }
         }
 
-        private void onGuiNode(DialogueNode node)
+        private void drawNode(DialogueNode node)
         {
             //GUILayout.BeginArea(new Rect(10f, 10f, 200f, 200f));
             GUILayout.BeginArea(screenRect: node.rect, style: node_style);
@@ -106,12 +113,29 @@ namespace RPG.Dialogue.Editor
                 node.text = new_text;
             }
 
-            foreach (DialogueNode child in selected_dialogue.getNodeChildren(root: node))
-            {
-                EditorGUILayout.LabelField($"{child.text}", EditorStyles.whiteLabel);
-            }
-
             GUILayout.EndArea();
+        }
+
+        private void drawConnection(DialogueNode node)
+        {
+            Vector3 start_position = new Vector3(node.rect.xMax, node.rect.center.y, 0f);
+            Vector3 end_position, start_tangent, end_tangent, offset;
+
+            foreach (DialogueNode child in selected_dialogue.getNodeChildren(root: node))
+            {                
+                end_position = new Vector3(child.rect.xMin, child.rect.center.y, 0f);
+                offset = new Vector2((end_position.x - start_position.x) * 0.8f, 0f);
+                start_tangent = start_position + offset;
+                end_tangent = end_position - offset;
+
+                Handles.DrawBezier(startPosition: start_position,
+                                   endPosition: end_position,
+                                   startTangent: start_tangent,
+                                   endTangent: end_tangent,
+                                   color: Color.white, 
+                                   texture: null,
+                                   width: 4f);
+            }
         }
 
         // 開啟 Editor 視窗

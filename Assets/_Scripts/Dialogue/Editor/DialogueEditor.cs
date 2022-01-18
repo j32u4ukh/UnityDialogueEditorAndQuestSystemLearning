@@ -18,6 +18,7 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] Vector2 dragging_offset;
 
         [NonSerialized] DialogueNode parent_node = null;
+        [NonSerialized] DialogueNode removed_node = null;
 
         private void OnEnable()
         {
@@ -52,8 +53,16 @@ namespace RPG.Dialogue.Editor
                 if(parent_node != null)
                 {
                     Undo.RecordObject(selected_dialogue, "Create New Dialogue Node.");
-                    selected_dialogue.createChildNode(parent_node);
+                    selected_dialogue.addChildNode(parent_node);
                     parent_node = null;
+                }
+
+                // TODO: 目前無法刪除帶有子節點的節點
+                if(removed_node != null)
+                {
+                    Undo.RecordObject(selected_dialogue, "Remove Dialogue Node.");
+                    selected_dialogue.removeNode(removed_node);
+                    removed_node = null;
                 }
 
                 processEvents();
@@ -120,12 +129,20 @@ namespace RPG.Dialogue.Editor
                 node.text = new_text;
             }
 
+            GUILayout.BeginHorizontal();
+
             if (GUILayout.Button("+"))
             {
                 //Debug.Log("Create new node.");
                 parent_node = node;
             }
 
+            if (GUILayout.Button("-"))
+            {
+                removed_node = node;
+            }
+
+            GUILayout.EndHorizontal();
             GUILayout.EndArea();
         }
 

@@ -35,12 +35,21 @@ namespace RPG.Dialogue
                 node_dict[node.unique_id] = node;
             }
         }
-        public void createChildNode(DialogueNode parent_node)
+
+        public void addChildNode(DialogueNode parent_node)
         {
             DialogueNode child = new DialogueNode();
             parent_node.children.Add(child.unique_id);
             nodes.Add(child);
             node_dict[child.unique_id] = child;
+        }
+
+        public void removeNode(DialogueNode node)
+        {
+            DialogueNode parent = getParentNode(child: node);
+            parent.children.Remove(node.unique_id);
+            nodes.Remove(node);
+            node_dict.Remove(node.unique_id);
         }
 
         public IEnumerable<DialogueNode> getAllNodes()
@@ -96,6 +105,19 @@ namespace RPG.Dialogue
                     yield return node_dict[unique_id];
                 }
             }
+        }
+
+        public DialogueNode getParentNode(DialogueNode child)
+        {
+            foreach(DialogueNode node in nodes)
+            {
+                if (node.children.Contains(child.unique_id))
+                {
+                    return node;
+                }
+            }
+
+            return null;
         }
     }
 }

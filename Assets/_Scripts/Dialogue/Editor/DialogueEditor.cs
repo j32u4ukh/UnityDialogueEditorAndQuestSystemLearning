@@ -7,13 +7,17 @@ using System;
 
 namespace RPG.Dialogue.Editor
 {
+    // EditorWindow 中的屬性變數預設為 SerializeField，因此當重新開啟頁籤，變數中可能還存著上一次操作時的數值，導致非預期結果
+    // 因此使用 NonSerialized 確保變數在下次載入時，會是空的。但 selected_dialogue 希望繼續記得，因此不添加。
     public class DialogueEditor : EditorWindow
     {
         Dialogue selected_dialogue = null;
-        GUIStyle node_style;
+        [NonSerialized] GUIStyle node_style;
 
-        DialogueNode dragged_node = null;
-        Vector2 dragging_offset;
+        [NonSerialized] DialogueNode dragged_node = null;
+        [NonSerialized] Vector2 dragging_offset;
+
+        [NonSerialized] DialogueNode parent_node = null;
 
         private void OnEnable()
         {
@@ -45,6 +49,13 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
+                if(parent_node != null)
+                {
+                    Undo.RecordObject(selected_dialogue, "Create New Dialogue Node.");
+                    selected_dialogue.createChildNode(parent_node);
+                    parent_node = null;
+                }
+
                 processEvents();
 
                 // 先繪製 Connection 再繪製 Node，可避免 Connection 畫到 Node 之上
@@ -96,8 +107,6 @@ namespace RPG.Dialogue.Editor
             GUILayout.BeginArea(screenRect: node.rect, style: node_style);
             EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.LabelField("Node:", EditorStyles.whiteLabel);
-            string new_id = EditorGUILayout.TextField(node.unique_id);
             string new_text = EditorGUILayout.TextField(node.text);
 
             if (EditorGUI.EndChangeCheck())
@@ -107,10 +116,14 @@ namespace RPG.Dialogue.Editor
                 // 在實際修改 selected_dialogue 前呼叫，才能回到最初的狀態
                 Undo.RecordObject(selected_dialogue, "Update Dialogue");
 
-                node.unique_id = new_id;
-
                 // 更新 DialogueNode 的 text
                 node.text = new_text;
+            }
+
+            if (GUILayout.Button("+"))
+            {
+                //Debug.Log("Create new node.");
+                parent_node = node;
             }
 
             GUILayout.EndArea();

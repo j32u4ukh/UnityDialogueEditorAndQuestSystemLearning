@@ -8,7 +8,7 @@ namespace RPG.Dialogue
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
     public class Dialogue : ScriptableObject
     {
-        [SerializeField] List<DialogueNode> nodes;
+        [SerializeField] List<DialogueNode> nodes = new List<DialogueNode>();
         Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
 
 #if UNITY_EDITOR
@@ -34,6 +34,13 @@ namespace RPG.Dialogue
                 //node_dict.Add(node.unique_id, node);
                 node_dict[node.unique_id] = node;
             }
+        }
+        public void createChildNode(DialogueNode parent_node)
+        {
+            DialogueNode child = new DialogueNode();
+            parent_node.children.Add(child.unique_id);
+            nodes.Add(child);
+            node_dict[child.unique_id] = child;
         }
 
         public IEnumerable<DialogueNode> getAllNodes()
@@ -63,6 +70,7 @@ namespace RPG.Dialogue
 
             return null;
         }
+
 
         public DialogueNode getNode(string unique_id)
         {

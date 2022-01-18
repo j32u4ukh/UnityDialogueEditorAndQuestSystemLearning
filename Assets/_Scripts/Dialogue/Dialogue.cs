@@ -9,16 +9,32 @@ namespace RPG.Dialogue
     public class Dialogue : ScriptableObject
     {
         [SerializeField] List<DialogueNode> nodes;
+        Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
 
 #if UNITY_EDITOR
         private void Awake()
         {
-            if(nodes.Count == 0)
+            if (nodes.Count == 0)
             {
                 nodes.Add(new DialogueNode());
             }
         }
 #endif
+        /// <summary>
+        /// 編輯器模式下 OnValidate 僅在下面兩種情況下被調用：
+        /// 1. 腳本被加載時
+        /// 2. Inspector 中的任何值被修改時
+        /// </summary>
+        private void OnValidate()
+        {
+            node_dict.Clear();
+
+            foreach (DialogueNode node in nodes)
+            {
+                //node_dict.Add(node.unique_id, node);
+                node_dict[node.unique_id] = node;
+            }
+        }
 
         public IEnumerable<DialogueNode> getAllNodes()
         {
@@ -27,7 +43,11 @@ namespace RPG.Dialogue
 
         public DialogueNode getNode(int index = 0)
         {
-            index = Math.Min(Math.Max(0, index), nodes.Count - 1);
+            if ((index < 0) || (nodes.Count <= index))
+            {
+                return null;
+            }
+
             return nodes[index];
         }
 
@@ -44,9 +64,30 @@ namespace RPG.Dialogue
             return null;
         }
 
+        public DialogueNode getNode(string unique_id)
+        {
+            if (node_dict.ContainsKey(unique_id))
+            {
+                return node_dict[unique_id];
+            }
+
+            return null;
+        }
+
         public DialogueNode getRootNode()
         {
             return nodes[0];
+        }
+
+        public IEnumerable<DialogueNode> getNodeChildren(DialogueNode root)
+        {
+            foreach (string unique_id in root.children)
+            {
+                if (node_dict.ContainsKey(unique_id))
+                {
+                    yield return node_dict[unique_id];
+                }
+            }
         }
     }
 }

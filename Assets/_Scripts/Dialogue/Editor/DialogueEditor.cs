@@ -106,6 +106,11 @@ namespace RPG.Dialogue.Editor
                 node.text = new_text;
             }
 
+            foreach (DialogueNode child in selected_dialogue.getNodeChildren(root: node))
+            {
+                EditorGUILayout.LabelField($"{child.text}", EditorStyles.whiteLabel);
+            }
+
             GUILayout.EndArea();
         }
 

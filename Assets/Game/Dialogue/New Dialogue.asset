@@ -18,45 +18,45 @@ MonoBehaviour:
     children:
     - b
     - c
-    location:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 14
+      y: 13
       width: 200
       height: 100
   - unique_id: b
     text: Hello, your self.
     children: []
-    location:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 110
+      x: 21
+      y: 113
       width: 200
       height: 100
   - unique_id: c
     text: Go away!
     children: []
-    location:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 210
+      x: 12
+      y: 214
       width: 200
       height: 100
   - unique_id: 
     text: 123
     children: []
-    location:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 310
+      x: 9
+      y: 315
       width: 200
       height: 100
   - unique_id: 
     text: 
     children: []
-    location:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 410
+      x: 12
+      y: 419
       width: 200
       height: 100

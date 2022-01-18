@@ -24,8 +24,8 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] bool is_canvas_dragged = false;
         [NonSerialized] Vector2 dragged_start_point;
         Vector2 scroll_position = Vector2.zero;
-        //float width = 0f;
-        //float height = 0f;
+        const float CANVAS_SIZE = 4000f;
+        const float BACKGROUND_SIZE = 100f;
 
         private void OnEnable()
         {
@@ -74,8 +74,10 @@ namespace RPG.Dialogue.Editor
 
                 processEvents();
                 scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
-                //width = 0f;
-                //height = 0f;
+                Rect canvas = GUILayoutUtility.GetRect(CANVAS_SIZE, CANVAS_SIZE);
+                Texture2D texture = Resources.Load<Texture2D>("star");
+                Rect coords = new Rect(0f, 0f, CANVAS_SIZE / BACKGROUND_SIZE, CANVAS_SIZE / BACKGROUND_SIZE);
+                GUI.DrawTextureWithTexCoords(canvas, texture, coords);
 
                 // 先繪製 Connection 再繪製 Node，可避免 Connection 畫到 Node 之上
                 foreach (DialogueNode node in selected_dialogue.getAllNodes())
@@ -87,9 +89,7 @@ namespace RPG.Dialogue.Editor
                 {
                     drawNode(node);
                 }
-
-                //GUILayoutUtility.GetRect(width + 10f, height + 10f);
-                GUILayoutUtility.GetRect(4000f, 4000f);
+                
                 EditorGUILayout.EndScrollView();
             }
         }
@@ -136,10 +136,7 @@ namespace RPG.Dialogue.Editor
 
         private void drawNode(DialogueNode node)
         {
-            //GUILayout.BeginArea(new Rect(10f, 10f, 200f, 200f));
             GUILayout.BeginArea(screenRect: node.rect, style: node_style);
-            //width = Mathf.Max(width, node.rect.xMax);
-            //height = Mathf.Max(height, node.rect.yMax);
             EditorGUI.BeginChangeCheck();
 
             string new_text = EditorGUILayout.TextField(node.text);

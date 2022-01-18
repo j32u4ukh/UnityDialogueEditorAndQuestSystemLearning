@@ -21,6 +21,10 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] DialogueNode removed_node = null;
         [NonSerialized] DialogueNode linking_parent_node = null;
 
+        Vector2 scroll_position = Vector2.zero;
+        float width = 0f;
+        float height = 0f;
+
         private void OnEnable()
         {
             //Selection.selectionChanged += OnSelectionChange;
@@ -66,14 +70,10 @@ namespace RPG.Dialogue.Editor
                     removed_node = null;
                 }
 
-                //if(linking_parent_node != null)
-                //{
-                //    Undo.RecordObject(selected_dialogue, "Link Dialogue Node.");
-                //    //selected_dialogue.removeNode(removed_node);
-                //    //linking_parent_node = null;
-                //}
-
+                scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
                 processEvents();
+                width = 0f;
+                height = 0f;
 
                 // 先繪製 Connection 再繪製 Node，可避免 Connection 畫到 Node 之上
                 foreach (DialogueNode node in selected_dialogue.getAllNodes())
@@ -85,6 +85,10 @@ namespace RPG.Dialogue.Editor
                 {
                     drawNode(node);
                 }
+
+                GUILayoutUtility.GetRect(width + 10f, height + 10f);
+                Debug.Log($"(width, height) = ({width + 10f}, {height + 10f})");
+                EditorGUILayout.EndScrollView();
             }
         }
 
@@ -112,7 +116,7 @@ namespace RPG.Dialogue.Editor
                     }                    
                     break;
 
-                case EventType.MouseUp:
+                case EventType.MouseUp:                        
                     dragged_node = null;
                     break;                
             }
@@ -122,6 +126,8 @@ namespace RPG.Dialogue.Editor
         {
             //GUILayout.BeginArea(new Rect(10f, 10f, 200f, 200f));
             GUILayout.BeginArea(screenRect: node.rect, style: node_style);
+            width = Mathf.Max(width, node.rect.xMax);
+            height = Mathf.Max(height, node.rect.yMax);
             EditorGUI.BeginChangeCheck();
 
             string new_text = EditorGUILayout.TextField(node.text);

@@ -19,6 +19,7 @@ namespace RPG.Dialogue.Editor
 
         [NonSerialized] DialogueNode parent_node = null;
         [NonSerialized] DialogueNode removed_node = null;
+        [NonSerialized] DialogueNode linking_parent_node = null;
 
         private void OnEnable()
         {
@@ -64,6 +65,13 @@ namespace RPG.Dialogue.Editor
                     selected_dialogue.removeNode(removed_node);
                     removed_node = null;
                 }
+
+                //if(linking_parent_node != null)
+                //{
+                //    Undo.RecordObject(selected_dialogue, "Link Dialogue Node.");
+                //    //selected_dialogue.removeNode(removed_node);
+                //    //linking_parent_node = null;
+                //}
 
                 processEvents();
 
@@ -133,9 +141,10 @@ namespace RPG.Dialogue.Editor
 
             if (GUILayout.Button("+"))
             {
-                //Debug.Log("Create new node.");
                 parent_node = node;
             }
+
+            operateLinking(node);
 
             if (GUILayout.Button("-"))
             {
@@ -144,6 +153,46 @@ namespace RPG.Dialogue.Editor
 
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
+        }
+
+        private void operateLinking(DialogueNode node)
+        {
+            if (linking_parent_node == null)
+            {
+                if (GUILayout.Button("link"))
+                {
+                    linking_parent_node = node;
+                }
+            }
+
+            else if (linking_parent_node.children.Contains(node.unique_id))
+            {
+                if (GUILayout.Button("unlink"))
+                {
+                    Undo.RecordObject(selected_dialogue, "Remove Dialogue Link");
+                    linking_parent_node.children.Remove(node.unique_id);
+                    linking_parent_node = null;
+                }
+            }
+
+            else if (!node.unique_id.Equals(linking_parent_node.unique_id))
+            {
+                if (GUILayout.Button("child"))
+                {
+                    Undo.RecordObject(selected_dialogue, "Add Dialogue Link");
+                    linking_parent_node.children.Add(node.unique_id);
+                    linking_parent_node = null;
+                }
+            }
+
+            // 當前 node 即為 linking_parent_node
+            else
+            {
+                if (GUILayout.Button("cancel"))
+                {
+                    linking_parent_node = null;
+                }
+            }
         }
 
         private void drawConnection(DialogueNode node)

@@ -14,11 +14,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - unique_id: b3ed87ce-d00e-437e-9033-2c5052fa0fea
+    text: 123
+    children:
+    - 92aaf2b1-8112-4d57-862c-7f9ab479f5ec
+    - 80128de2-c4c6-4e20-9b0e-8ce37c4a0597
+    rect:
+      serializedVersion: 2
+      x: 6
+      y: 232
+      width: 200
+      height: 100
+  - unique_id: 92aaf2b1-8112-4d57-862c-7f9ab479f5ec
+    text: 
+    children:
+    - 4985a9ea-f5e7-4a2a-96db-1c28a4c7192e
+    - 8a3d2c68-eee1-4ff3-a88b-b7412552a0b2
+    rect:
+      serializedVersion: 2
+      x: 218
+      y: 114
+      width: 200
+      height: 100
+  - unique_id: 80128de2-c4c6-4e20-9b0e-8ce37c4a0597
     text: 
     children: []
     rect:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 261
+      y: 336
+      width: 200
+      height: 100
+  - unique_id: 4985a9ea-f5e7-4a2a-96db-1c28a4c7192e
+    text: 
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 441
+      y: 41
+      width: 200
+      height: 100
+  - unique_id: 8a3d2c68-eee1-4ff3-a88b-b7412552a0b2
+    text: 
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 445
+      y: 175
       width: 200
       height: 100

@@ -11,6 +11,9 @@ namespace RPG.Dialogue.Editor
         Dialogue selected_dialogue = null;
         GUIStyle node_style;
 
+        DialogueNode dragged_node = null;
+        Vector2 dragging_offset;
+
         private void OnEnable()
         {
             //Selection.selectionChanged += OnSelectionChange;
@@ -41,6 +44,8 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
+                processEvents();
+
                 foreach(DialogueNode node in selected_dialogue.getAllNodes())
                 {
                     onGuiNode(node);
@@ -48,10 +53,40 @@ namespace RPG.Dialogue.Editor
             }
         }
 
+        private void processEvents()
+        {
+            switch (Event.current.type)
+            {
+                case EventType.MouseDown:
+                    dragged_node = selected_dialogue.getNode(position: Event.current.mousePosition);
+
+                    if(dragged_node != null)
+                    {
+                        dragging_offset = dragged_node.rect.position - Event.current.mousePosition;
+                    }
+
+                    break;
+
+                case EventType.MouseDrag:
+                    if (dragged_node != null)
+                    {
+                        Undo.RecordObject(selected_dialogue, "Move Dialogue Node");
+                        dragged_node.rect.position = Event.current.mousePosition + dragging_offset;
+                        //Repaint();
+                        GUI.changed = true;
+                    }                    
+                    break;
+
+                case EventType.MouseUp:
+                    dragged_node = null;
+                    break;                
+            }
+        }
+
         private void onGuiNode(DialogueNode node)
         {
             //GUILayout.BeginArea(new Rect(10f, 10f, 200f, 200f));
-            GUILayout.BeginArea(screenRect: node.location, style: node_style);
+            GUILayout.BeginArea(screenRect: node.rect, style: node_style);
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.LabelField("Node:", EditorStyles.whiteLabel);

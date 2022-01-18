@@ -21,9 +21,11 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] DialogueNode removed_node = null;
         [NonSerialized] DialogueNode linking_parent_node = null;
 
+        [NonSerialized] bool is_canvas_dragged = false;
+        [NonSerialized] Vector2 dragged_start_point;
         Vector2 scroll_position = Vector2.zero;
-        float width = 0f;
-        float height = 0f;
+        //float width = 0f;
+        //float height = 0f;
 
         private void OnEnable()
         {
@@ -70,10 +72,10 @@ namespace RPG.Dialogue.Editor
                     removed_node = null;
                 }
 
-                scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
                 processEvents();
-                width = 0f;
-                height = 0f;
+                scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
+                //width = 0f;
+                //height = 0f;
 
                 // 先繪製 Connection 再繪製 Node，可避免 Connection 畫到 Node 之上
                 foreach (DialogueNode node in selected_dialogue.getAllNodes())
@@ -86,8 +88,8 @@ namespace RPG.Dialogue.Editor
                     drawNode(node);
                 }
 
-                GUILayoutUtility.GetRect(width + 10f, height + 10f);
-                Debug.Log($"(width, height) = ({width + 10f}, {height + 10f})");
+                //GUILayoutUtility.GetRect(width + 10f, height + 10f);
+                GUILayoutUtility.GetRect(4000f, 4000f);
                 EditorGUILayout.EndScrollView();
             }
         }
@@ -97,11 +99,16 @@ namespace RPG.Dialogue.Editor
             switch (Event.current.type)
             {
                 case EventType.MouseDown:
-                    dragged_node = selected_dialogue.getNode(position: Event.current.mousePosition);
-
+                    dragged_node = selected_dialogue.getNode(position: scroll_position + Event.current.mousePosition);
+                    
                     if(dragged_node != null)
                     {
                         dragging_offset = dragged_node.rect.position - Event.current.mousePosition;
+                    }
+                    else
+                    {
+                        is_canvas_dragged = true;
+                        dragged_start_point = Event.current.mousePosition + scroll_position;
                     }
 
                     break;
@@ -111,13 +118,18 @@ namespace RPG.Dialogue.Editor
                     {
                         Undo.RecordObject(selected_dialogue, "Move Dialogue Node");
                         dragged_node.rect.position = Event.current.mousePosition + dragging_offset;
-                        //Repaint();
-                        GUI.changed = true;
-                    }                    
+                    }
+                    else if(is_canvas_dragged)
+                    {
+                        scroll_position = dragged_start_point - Event.current.mousePosition;
+                    }
+
+                    GUI.changed = true;
                     break;
 
                 case EventType.MouseUp:                        
                     dragged_node = null;
+                    is_canvas_dragged = false;
                     break;                
             }
         }
@@ -126,8 +138,8 @@ namespace RPG.Dialogue.Editor
         {
             //GUILayout.BeginArea(new Rect(10f, 10f, 200f, 200f));
             GUILayout.BeginArea(screenRect: node.rect, style: node_style);
-            width = Mathf.Max(width, node.rect.xMax);
-            height = Mathf.Max(height, node.rect.yMax);
+            //width = Mathf.Max(width, node.rect.xMax);
+            //height = Mathf.Max(height, node.rect.yMax);
             EditorGUI.BeginChangeCheck();
 
             string new_text = EditorGUILayout.TextField(node.text);

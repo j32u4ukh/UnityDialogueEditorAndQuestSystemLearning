@@ -13,16 +13,6 @@ namespace RPG.Dialogue
         [SerializeField] List<DialogueNode> nodes = new List<DialogueNode>();
         Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
 
-#if UNITY_EDITOR
-        private void Awake()
-        {
-            //if (nodes.Count == 0)
-            //{
-            //    //nodes.Add(DialogueNode.createInstance());
-            //    addNode(null);
-            //}
-        }
-#endif
         /// <summary>
         /// 編輯器模式下 OnValidate 僅在下面兩種情況下被調用：
         /// 1. 腳本被加載時
@@ -43,10 +33,12 @@ namespace RPG.Dialogue
         // Implement this method to receive a callback before Unity serializes your object.
         public void OnBeforeSerialize()
         {
+            // 宏寫在此處而非函式外面，是因為繼承了 ISerializationCallbackReceiver 就必須實作此函式，不能只在編輯器模式下有這個函式
+#if UNITY_EDITOR
             if (nodes.Count == 0)
             {
                 //nodes.Add(DialogueNode.createInstance());
-                addNode(null);
+                addNode(null, use_undo: false);
             }
 
             if (!AssetDatabase.GetAssetPath(this).Equals(string.Empty))
@@ -59,6 +51,7 @@ namespace RPG.Dialogue
                     }
                 }
             }
+#endif
         }
 
         // When load a file from hard drive
@@ -68,32 +61,41 @@ namespace RPG.Dialogue
             
         }
 
-        public void addNode(DialogueNode root)
+#if UNITY_EDITOR
+        public void addNode(DialogueNode root, bool use_undo = true)
         {
             DialogueNode node = DialogueNode.createInstance();
-            Undo.RegisterCreatedObjectUndo(node, "Created Dialogue Node");
             Debug.Log($"addNode: {node.name}");
 
             if (root != null)
             {
-                root.children.Add(node.name);
+                root.addChild(node.name);
+            }
+
+            if (use_undo)
+            {
+                Undo.RegisterCreatedObjectUndo(node, "Created Dialogue Node");
+                Undo.RecordObject(this, "Add New Dialogue Node.");
             }
             
             nodes.Add(node);
-            node_dict[node.name] = node;
+            //node_dict[node.name] = node;
+            OnValidate();
         }
 
         public void removeNode(DialogueNode node)
         {
+            Undo.RecordObject(this, "Remove Dialogue Node.");
             DialogueNode parent = getParentNode(child: node);
 
             if(parent != null)
             {
-                parent.children.Remove(node.name);
+                parent.removeChild(node.name);
             }
             
             nodes.Remove(node);
-            node_dict.Remove(node.name);
+            //node_dict.Remove(node.name);
+            OnValidate();
             Undo.DestroyObjectImmediate(node);
         }
 
@@ -116,7 +118,7 @@ namespace RPG.Dialogue
         {
             for(int i = nodes.Count - 1; i >= 0; i--)
             {
-                if (nodes[i].rect.Contains(position))
+                if (nodes[i].getRect().Contains(position))
                 {
                     return nodes[i];
                 }
@@ -143,7 +145,7 @@ namespace RPG.Dialogue
 
         public IEnumerable<DialogueNode> getNodeChildren(DialogueNode root)
         {
-            foreach (string unique_id in root.children)
+            foreach (string unique_id in root.iterChildren())
             {
                 if (node_dict.ContainsKey(unique_id))
                 {
@@ -156,7 +158,7 @@ namespace RPG.Dialogue
         {
             foreach(DialogueNode node in nodes)
             {
-                if (node.children.Contains(child.name))
+                if (node.containChild(child.name))
                 {
                     return node;
                 }
@@ -164,5 +166,7 @@ namespace RPG.Dialogue
 
             return null;
         }
+#endif
+
     }
 }

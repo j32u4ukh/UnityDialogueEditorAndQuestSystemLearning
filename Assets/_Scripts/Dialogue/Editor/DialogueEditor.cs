@@ -57,24 +57,21 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
-
                 if (parent_node != null)
                 {
-                    Undo.RecordObject(selected_dialogue, "Create New Dialogue Node.");
                     selected_dialogue.addNode(parent_node);
                     parent_node = null;
                 }
 
-                // TODO: 目前無法刪除帶有子節點的節點
                 if (removed_node != null)
                 {
-                    Undo.RecordObject(selected_dialogue, "Remove Dialogue Node.");
                     selected_dialogue.removeNode(removed_node);
                     removed_node = null;
                 }
 
                 processEvents();
                 scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
+
                 Rect canvas = GUILayoutUtility.GetRect(CANVAS_SIZE, CANVAS_SIZE);
                 Texture2D texture = Resources.Load<Texture2D>("background");
                 Rect coords = new Rect(0f, 0f, CANVAS_SIZE / BACKGROUND_SIZE, CANVAS_SIZE / BACKGROUND_SIZE);
@@ -104,13 +101,13 @@ namespace RPG.Dialogue.Editor
                     
                     if(dragged_node != null)
                     {
-                        dragging_offset = dragged_node.rect.position - Event.current.mousePosition;
+                        dragging_offset = dragged_node.getRect().position - Event.current.mousePosition;
                         Selection.activeObject = dragged_node;
                     }
                     else
                     {
                         is_canvas_dragged = true;
-                        dragged_start_point = Event.current.mousePosition + scroll_position;
+                        dragged_start_point = scroll_position + Event.current.mousePosition;
                         Selection.activeObject = selected_dialogue;
                     }
 
@@ -119,15 +116,15 @@ namespace RPG.Dialogue.Editor
                 case EventType.MouseDrag:
                     if (dragged_node != null)
                     {
-                        Undo.RecordObject(selected_dialogue, "Move Dialogue Node");
-                        dragged_node.rect.position = Event.current.mousePosition + dragging_offset;
+                        dragged_node.setPosition(position: Event.current.mousePosition + dragging_offset);
+                        GUI.changed = true;
                     }
                     else if(is_canvas_dragged)
                     {
                         scroll_position = dragged_start_point - Event.current.mousePosition;
+                        GUI.changed = true;
                     }
 
-                    GUI.changed = true;
                     break;
 
                 case EventType.MouseUp:                        
@@ -139,21 +136,11 @@ namespace RPG.Dialogue.Editor
 
         private void drawNode(DialogueNode node)
         {
-            GUILayout.BeginArea(screenRect: node.rect, style: node_style);
-            EditorGUI.BeginChangeCheck();
+            GUILayout.BeginArea(screenRect: node.getRect(), style: node_style);
+            //EditorGUI.BeginChangeCheck();
 
-            string new_text = EditorGUILayout.TextField(node.text);
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                // 紀錄修改歷程，並取代 EditorUtility.SetDirty(selected_dialogue); 將 selected_dialogue 設為 Dirty，
-                // 告訴 Unity 這個檔案已被修改，要更新 selected_dialogue 的數據，而不只有更新 Inspector
-                // 在實際修改 selected_dialogue 前呼叫，才能回到最初的狀態
-                Undo.RecordObject(selected_dialogue, "Update Dialogue");
-
-                // 更新 DialogueNode 的 text
-                node.text = new_text;
-            }
+            // 更新 DialogueNode 的 text
+            node.setText(text: EditorGUILayout.TextField(node.getText()));
 
             GUILayout.BeginHorizontal();
 
@@ -183,12 +170,11 @@ namespace RPG.Dialogue.Editor
                 }
             }
 
-            else if (linking_parent_node.children.Contains(node.name))
+            else if (linking_parent_node.containChild(node.name))
             {
                 if (GUILayout.Button("unlink"))
                 {
-                    Undo.RecordObject(selected_dialogue, "Remove Dialogue Link");
-                    linking_parent_node.children.Remove(node.name);
+                    linking_parent_node.removeChild(node.name);
                     linking_parent_node = null;
                 }
             }
@@ -197,8 +183,7 @@ namespace RPG.Dialogue.Editor
             {
                 if (GUILayout.Button("child"))
                 {
-                    Undo.RecordObject(selected_dialogue, "Add Dialogue Link");
-                    linking_parent_node.children.Add(node.name);
+                    linking_parent_node.addChild(node.name);
                     linking_parent_node = null;
                 }
             }
@@ -215,20 +200,18 @@ namespace RPG.Dialogue.Editor
 
         private void drawConnection(DialogueNode node)
         {
-            Vector3 start_position = new Vector3(node.rect.xMax, node.rect.center.y, 0f);
-            Vector3 end_position, start_tangent, end_tangent, offset;
+            Vector3 start_position = new Vector3(node.getRect().xMax, node.getRect().center.y, 0f);
+            Vector3 end_position, offset;
 
             foreach (DialogueNode child in selected_dialogue.getNodeChildren(root: node))
             {                
-                end_position = new Vector3(child.rect.xMin, child.rect.center.y, 0f);
+                end_position = new Vector3(child.getRect().xMin, child.getRect().center.y, 0f);
                 offset = new Vector2((end_position.x - start_position.x) * 0.8f, 0f);
-                start_tangent = start_position + offset;
-                end_tangent = end_position - offset;
 
                 Handles.DrawBezier(startPosition: start_position,
                                    endPosition: end_position,
-                                   startTangent: start_tangent,
-                                   endTangent: end_tangent,
+                                   startTangent: start_position + offset,
+                                   endTangent: end_position - offset,
                                    color: Color.white, 
                                    texture: null,
                                    width: 4f);

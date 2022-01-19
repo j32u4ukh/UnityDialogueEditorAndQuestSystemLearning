@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1467280172891810627
+--- !u!114 &-6342366232699857515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
-  m_Name: 36dba929-9407-4c56-83bb-287046a94739
+  m_Name: 02967906-df27-4fb9-a329-5504bacb3d80
   m_EditorClassIdentifier: 
-  text: 123
-  children:
-  - d0c82fb7-1676-4954-91ba-dbfaa605964f
-  - 1e1b3f57-e67e-4c0a-931d-baa62598db57
+  text: 
+  children: []
   rect:
     serializedVersion: 2
-    x: 53
-    y: 223
+    x: 270
+    y: 318
     width: 200
     height: 100
 --- !u!114 &11400000
@@ -35,10 +33,10 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: -1467280172891810627}
-  - {fileID: 1748394675539719786}
-  - {fileID: 7473396111199583861}
---- !u!114 &1748394675539719786
+  - {fileID: 7085258128859202775}
+  - {fileID: 2743595568439695092}
+  - {fileID: -6342366232699857515}
+--- !u!114 &2743595568439695092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,17 +46,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
-  m_Name: d0c82fb7-1676-4954-91ba-dbfaa605964f
+  m_Name: bd2a8ff9-3696-4b79-b75d-ac8455ec29cb
   m_EditorClassIdentifier: 
-  text: 456
+  text: 
   children: []
   rect:
     serializedVersion: 2
-    x: 303
-    y: 113
+    x: 310
+    y: 93
     width: 200
     height: 100
---- !u!114 &7473396111199583861
+--- !u!114 &7085258128859202775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,13 +66,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
-  m_Name: 1e1b3f57-e67e-4c0a-931d-baa62598db57
+  m_Name: ba58ef91-8e1d-4e28-b531-8d140ed47504
   m_EditorClassIdentifier: 
-  text: 789
-  children: []
+  text: 
+  children:
+  - bd2a8ff9-3696-4b79-b75d-ac8455ec29cb
+  - 02967906-df27-4fb9-a329-5504bacb3d80
   rect:
     serializedVersion: 2
-    x: 312
-    y: 306
+    x: 17
+    y: 195
     width: 200
     height: 100

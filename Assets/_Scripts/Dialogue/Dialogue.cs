@@ -11,6 +11,7 @@ namespace RPG.Dialogue
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] List<DialogueNode> nodes = new List<DialogueNode>();
+        [SerializeField] Vector2 new_node_offset = new Vector2(250f, 0f);
         Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
 
         /// <summary>
@@ -70,6 +71,8 @@ namespace RPG.Dialogue
             if (root != null)
             {
                 root.addChild(node.name);
+                node.setPlayerSpeaking(!root.isPlayerSpeaking());
+                node.setPosition(root.getRect().position + new_node_offset);
             }
 
             if (use_undo)

@@ -10,6 +10,7 @@ namespace RPG.Dialogue
         [SerializeField] string text;
         [SerializeField] List<string> children;
         [SerializeField] Rect rect = new Rect(0f, 0f, 200f, 100f);
+        [SerializeField] bool is_player_speaking;
 
         public static DialogueNode createInstance()
         {
@@ -24,6 +25,7 @@ namespace RPG.Dialogue
             text = "";
             children = new List<string>();
             rect = new Rect(0f, 0f, 200f, 100f);
+            is_player_speaking = false;
         }
 
         public string getText()
@@ -44,6 +46,11 @@ namespace RPG.Dialogue
         public IEnumerable<string> iterChildren()
         {
             return children;
+        }
+
+        public bool isPlayerSpeaking()
+        {
+            return is_player_speaking;
         }
 
 #if UNITY_EDITOR
@@ -76,6 +83,13 @@ namespace RPG.Dialogue
         {
             Undo.RecordObject(this, "[DialogueNode] removeChild");
             children.Remove(child_name);
+            EditorUtility.SetDirty(this);
+        }
+
+        public void setPlayerSpeaking(bool is_player)
+        {
+            Undo.RecordObject(this, "[DialogueNode] setPlayerSpeaking");
+            is_player_speaking = is_player;
             EditorUtility.SetDirty(this);
         }
 

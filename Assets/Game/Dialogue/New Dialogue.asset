@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6342366232699857515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
-  m_Name: 02967906-df27-4fb9-a329-5504bacb3d80
-  m_EditorClassIdentifier: 
-  text: 
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 270
-    y: 318
-    width: 200
-    height: 100
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,28 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 7085258128859202775}
-  - {fileID: 2743595568439695092}
-  - {fileID: -6342366232699857515}
---- !u!114 &2743595568439695092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
-  m_Name: bd2a8ff9-3696-4b79-b75d-ac8455ec29cb
-  m_EditorClassIdentifier: 
-  text: 
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 310
-    y: 93
-    width: 200
-    height: 100
+  new_node_offset: {x: 250, y: 0}
 --- !u!114 &7085258128859202775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,12 +28,11 @@ MonoBehaviour:
   m_Name: ba58ef91-8e1d-4e28-b531-8d140ed47504
   m_EditorClassIdentifier: 
   text: 123
-  children:
-  - bd2a8ff9-3696-4b79-b75d-ac8455ec29cb
-  - 02967906-df27-4fb9-a329-5504bacb3d80
+  children: []
   rect:
     serializedVersion: 2
-    x: 17
-    y: 195
+    x: 9
+    y: 172
     width: 200
     height: 100
+  is_player_speaking: 0

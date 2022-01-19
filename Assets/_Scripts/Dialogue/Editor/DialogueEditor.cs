@@ -12,7 +12,8 @@ namespace RPG.Dialogue.Editor
     public class DialogueEditor : EditorWindow
     {
         Dialogue selected_dialogue = null;
-        [NonSerialized] GUIStyle node_style;
+        [NonSerialized] GUIStyle npc_style;
+        [NonSerialized] GUIStyle player_style;
 
         [NonSerialized] DialogueNode dragged_node = null;
         [NonSerialized] Vector2 dragging_offset;
@@ -30,11 +31,17 @@ namespace RPG.Dialogue.Editor
         private void OnEnable()
         {
             //Selection.selectionChanged += OnSelectionChange;
-            node_style = new GUIStyle();
-            node_style.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
-            node_style.normal.textColor = Color.white;
-            node_style.padding = new RectOffset(left: 20, right: 20, top: 20, bottom: 20);
-            node_style.border = new RectOffset(left: 12, right: 12, top: 12, bottom: 12);
+            npc_style = new GUIStyle();
+            npc_style.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
+            npc_style.normal.textColor = Color.white;
+            npc_style.padding = new RectOffset(left: 20, right: 20, top: 20, bottom: 20);
+            npc_style.border = new RectOffset(left: 12, right: 12, top: 12, bottom: 12);
+
+            player_style = new GUIStyle();
+            player_style.normal.background = EditorGUIUtility.Load("node1") as Texture2D;
+            player_style.normal.textColor = Color.white;
+            player_style.padding = new RectOffset(left: 20, right: 20, top: 20, bottom: 20);
+            player_style.border = new RectOffset(left: 12, right: 12, top: 12, bottom: 12);
         }
 
         private void OnSelectionChange()
@@ -136,7 +143,15 @@ namespace RPG.Dialogue.Editor
 
         private void drawNode(DialogueNode node)
         {
-            GUILayout.BeginArea(screenRect: node.getRect(), style: node_style);
+            if (node.isPlayerSpeaking())
+            {
+                GUILayout.BeginArea(screenRect: node.getRect(), style: player_style);
+            }
+            else
+            {
+                GUILayout.BeginArea(screenRect: node.getRect(), style: npc_style);
+            }
+            
             //EditorGUI.BeginChangeCheck();
 
             // §ó·s DialogueNode ªº text

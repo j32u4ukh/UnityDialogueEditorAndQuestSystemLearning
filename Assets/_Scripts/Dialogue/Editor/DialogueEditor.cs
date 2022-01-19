@@ -25,7 +25,7 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] Vector2 dragged_start_point;
         Vector2 scroll_position = Vector2.zero;
         const float CANVAS_SIZE = 4000f;
-        const float BACKGROUND_SIZE = 100f;
+        const float BACKGROUND_SIZE = 50f;
 
         private void OnEnable()
         {
@@ -75,7 +75,7 @@ namespace RPG.Dialogue.Editor
                 processEvents();
                 scroll_position = EditorGUILayout.BeginScrollView(scroll_position);
                 Rect canvas = GUILayoutUtility.GetRect(CANVAS_SIZE, CANVAS_SIZE);
-                Texture2D texture = Resources.Load<Texture2D>("star");
+                Texture2D texture = Resources.Load<Texture2D>("background");
                 Rect coords = new Rect(0f, 0f, CANVAS_SIZE / BACKGROUND_SIZE, CANVAS_SIZE / BACKGROUND_SIZE);
                 GUI.DrawTextureWithTexCoords(canvas, texture, coords);
 
@@ -104,11 +104,13 @@ namespace RPG.Dialogue.Editor
                     if(dragged_node != null)
                     {
                         dragging_offset = dragged_node.rect.position - Event.current.mousePosition;
+                        Selection.activeObject = dragged_node;
                     }
                     else
                     {
                         is_canvas_dragged = true;
                         dragged_start_point = Event.current.mousePosition + scroll_position;
+                        Selection.activeObject = selected_dialogue;
                     }
 
                     break;
@@ -180,22 +182,22 @@ namespace RPG.Dialogue.Editor
                 }
             }
 
-            else if (linking_parent_node.children.Contains(node.unique_id))
+            else if (linking_parent_node.children.Contains(node.name))
             {
                 if (GUILayout.Button("unlink"))
                 {
                     Undo.RecordObject(selected_dialogue, "Remove Dialogue Link");
-                    linking_parent_node.children.Remove(node.unique_id);
+                    linking_parent_node.children.Remove(node.name);
                     linking_parent_node = null;
                 }
             }
 
-            else if (!node.unique_id.Equals(linking_parent_node.unique_id))
+            else if (!node.name.Equals(linking_parent_node.name))
             {
                 if (GUILayout.Button("child"))
                 {
                     Undo.RecordObject(selected_dialogue, "Add Dialogue Link");
-                    linking_parent_node.children.Add(node.unique_id);
+                    linking_parent_node.children.Add(node.name);
                     linking_parent_node = null;
                 }
             }

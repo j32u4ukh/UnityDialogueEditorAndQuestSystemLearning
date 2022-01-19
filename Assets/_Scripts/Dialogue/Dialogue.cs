@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace RPG.Dialogue
 {
+    // CreateAssetMenu 這行使得在 Asset 當中按右鍵時可產生相對應的檔案
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
     public class Dialogue : ScriptableObject
     {
@@ -16,7 +18,8 @@ namespace RPG.Dialogue
         {
             if (nodes.Count == 0)
             {
-                nodes.Add(new DialogueNode());
+                //nodes.Add(DialogueNode.createInstance());
+                addChildNode(null);
             }
         }
 #endif
@@ -32,24 +35,31 @@ namespace RPG.Dialogue
             foreach (DialogueNode node in nodes)
             {
                 //node_dict.Add(node.unique_id, node);
-                node_dict[node.unique_id] = node;
+                node_dict[node.name] = node;
             }
         }
 
         public void addChildNode(DialogueNode parent_node)
         {
-            DialogueNode child = new DialogueNode();
-            parent_node.children.Add(child.unique_id);
+            DialogueNode child = DialogueNode.createInstance();
+            Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
+
+            if(parent_node != null)
+            {
+                parent_node.children.Add(child.name);
+            }
+            
             nodes.Add(child);
-            node_dict[child.unique_id] = child;
+            node_dict[child.name] = child;
         }
 
         public void removeNode(DialogueNode node)
         {
             DialogueNode parent = getParentNode(child: node);
-            parent.children.Remove(node.unique_id);
+            parent.children.Remove(node.name);
             nodes.Remove(node);
-            node_dict.Remove(node.unique_id);
+            node_dict.Remove(node.name);
+            Undo.DestroyObjectImmediate(node);
         }
 
         public IEnumerable<DialogueNode> getAllNodes()
@@ -111,7 +121,7 @@ namespace RPG.Dialogue
         {
             foreach(DialogueNode node in nodes)
             {
-                if (node.children.Contains(child.unique_id))
+                if (node.children.Contains(child.name))
                 {
                     return node;
                 }

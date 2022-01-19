@@ -4,17 +4,22 @@ using UnityEngine;
 
 namespace RPG.Dialogue
 {
-    [System.Serializable]
-    public class DialogueNode
+    public class DialogueNode : ScriptableObject
     {
-        public string unique_id;
         public string text;
         public List<string> children; 
-        public Rect rect;
+        public Rect rect = new Rect(0f, 0f, 200f, 100f);
 
-        public DialogueNode()
+        public static DialogueNode createInstance()
         {
-            unique_id = System.Guid.NewGuid().ToString();
+            DialogueNode dialogue = CreateInstance<DialogueNode>();
+            dialogue.init();
+            return dialogue;
+        }
+
+        private void init()
+        {
+            name = System.Guid.NewGuid().ToString();
             text = "";
             children = new List<string>();
             rect = new Rect(0f, 0f, 200f, 100f);

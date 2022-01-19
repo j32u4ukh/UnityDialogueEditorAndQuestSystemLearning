@@ -51,11 +51,10 @@ namespace RPG.Dialogue
         {
             if (!this.text.Equals(text))
             {
-                // 紀錄修改歷程，並取代 EditorUtility.SetDirty(selected_dialogue); 將 selected_dialogue 設為 Dirty，
-                // 告訴 Unity 這個檔案已被修改，要更新 selected_dialogue 的數據，而不只有更新 Inspector
-                // 在實際修改 selected_dialogue 前呼叫，才能回到最初的狀態
+                // 紀錄修改歷程，可利用 ctrl + Z 回到上一個狀態
                 Undo.RecordObject(this, "[DialogueNode] setText");
                 this.text = text;
+                EditorUtility.SetDirty(this);
             }
         }
 
@@ -63,18 +62,21 @@ namespace RPG.Dialogue
         {
             Undo.RecordObject(this, "[DialogueNode] setPosition");
             rect.position = position;
+            EditorUtility.SetDirty(this);
         }
 
         public void addChild(string child_name)
         {
             Undo.RecordObject(this, "[DialogueNode] addChild");
             children.Add(child_name);
+            EditorUtility.SetDirty(this);
         }
 
         public void removeChild(string child_name)
         {
             Undo.RecordObject(this, "[DialogueNode] removeChild");
             children.Remove(child_name);
+            EditorUtility.SetDirty(this);
         }
 
 #endif

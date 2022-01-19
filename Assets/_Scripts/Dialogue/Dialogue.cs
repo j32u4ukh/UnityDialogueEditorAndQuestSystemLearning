@@ -74,8 +74,8 @@ namespace RPG.Dialogue
 
             if (use_undo)
             {
-                Undo.RegisterCreatedObjectUndo(node, "Created Dialogue Node");
-                Undo.RecordObject(this, "Add New Dialogue Node.");
+                Undo.RegisterCreatedObjectUndo(node, "[Dialogue] addNode | Created Dialogue Node");
+                Undo.RecordObject(this, "[Dialogue] addNode | Add New Dialogue Node.");
             }
             
             nodes.Add(node);
@@ -85,7 +85,7 @@ namespace RPG.Dialogue
 
         public void removeNode(DialogueNode node)
         {
-            Undo.RecordObject(this, "Remove Dialogue Node.");
+            Undo.RecordObject(this, "[Dialogue] removeNode");
             DialogueNode parent = getParentNode(child: node);
 
             if(parent != null)

@@ -57,15 +57,16 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
-                if(parent_node != null)
+
+                if (parent_node != null)
                 {
                     Undo.RecordObject(selected_dialogue, "Create New Dialogue Node.");
-                    selected_dialogue.addChildNode(parent_node);
+                    selected_dialogue.addNode(parent_node);
                     parent_node = null;
                 }
 
                 // TODO: 目前無法刪除帶有子節點的節點
-                if(removed_node != null)
+                if (removed_node != null)
                 {
                     Undo.RecordObject(selected_dialogue, "Remove Dialogue Node.");
                     selected_dialogue.removeNode(removed_node);

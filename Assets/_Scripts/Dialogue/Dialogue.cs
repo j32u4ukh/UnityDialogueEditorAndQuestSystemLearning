@@ -8,7 +8,7 @@ namespace RPG.Dialogue
 {
     // CreateAssetMenu 這行使得在 Asset 當中按右鍵時可產生相對應的檔案
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
-    public class Dialogue : ScriptableObject
+    public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] List<DialogueNode> nodes = new List<DialogueNode>();
         Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
@@ -16,11 +16,11 @@ namespace RPG.Dialogue
 #if UNITY_EDITOR
         private void Awake()
         {
-            if (nodes.Count == 0)
-            {
-                //nodes.Add(DialogueNode.createInstance());
-                addChildNode(null);
-            }
+            //if (nodes.Count == 0)
+            //{
+            //    //nodes.Add(DialogueNode.createInstance());
+            //    addNode(null);
+            //}
         }
 #endif
         /// <summary>
@@ -39,24 +39,59 @@ namespace RPG.Dialogue
             }
         }
 
-        public void addChildNode(DialogueNode parent_node)
+        // When save a file to hard drive
+        // Implement this method to receive a callback before Unity serializes your object.
+        public void OnBeforeSerialize()
         {
-            DialogueNode child = DialogueNode.createInstance();
-            Undo.RegisterCreatedObjectUndo(child, "Created Dialogue Node");
-
-            if(parent_node != null)
+            if (nodes.Count == 0)
             {
-                parent_node.children.Add(child.name);
+                //nodes.Add(DialogueNode.createInstance());
+                addNode(null);
+            }
+
+            if (!AssetDatabase.GetAssetPath(this).Equals(string.Empty))
+            {
+                foreach(DialogueNode node in nodes)
+                {
+                    if (AssetDatabase.GetAssetPath(node).Equals(string.Empty))
+                    {
+                        AssetDatabase.AddObjectToAsset(node, this);
+                    }
+                }
+            }
+        }
+
+        // When load a file from hard drive
+        // Implement this method to receive a callback after Unity deserializes your object.
+        public void OnAfterDeserialize()
+        {
+            
+        }
+
+        public void addNode(DialogueNode root)
+        {
+            DialogueNode node = DialogueNode.createInstance();
+            Undo.RegisterCreatedObjectUndo(node, "Created Dialogue Node");
+            Debug.Log($"addNode: {node.name}");
+
+            if (root != null)
+            {
+                root.children.Add(node.name);
             }
             
-            nodes.Add(child);
-            node_dict[child.name] = child;
+            nodes.Add(node);
+            node_dict[node.name] = node;
         }
 
         public void removeNode(DialogueNode node)
         {
             DialogueNode parent = getParentNode(child: node);
-            parent.children.Remove(node.name);
+
+            if(parent != null)
+            {
+                parent.children.Remove(node.name);
+            }
+            
             nodes.Remove(node);
             node_dict.Remove(node.name);
             Undo.DestroyObjectImmediate(node);

@@ -40,21 +40,32 @@ namespace RPG.UI
 
             if (is_choosing)
             {
-                foreach (Transform choice in choices)
-                {
-                    Destroy(choice.gameObject);
-                }
-
-                foreach (DialogueNode choice in player_conversant.getChoices())
-                {
-                    GameObject obj = Instantiate(choice_prefab, choices);
-                    obj.GetComponentInChildren<TextMeshProUGUI>().text = choice.getText();
-                }
+                buildChoiceList();
             }
             else
             {
                 ai_text.text = player_conversant.getText();
                 next_button.gameObject.SetActive(player_conversant.hasNext());
+            }
+        }
+
+        private void buildChoiceList()
+        {
+            foreach (Transform choice in choices)
+            {
+                Destroy(choice.gameObject);
+            }
+
+            foreach (DialogueNode choice in player_conversant.getChoices())
+            {
+                GameObject obj = Instantiate(choice_prefab, choices);
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = choice.getText();
+                Button button = obj.GetComponentInChildren<Button>();
+                button.onClick.AddListener(()=> 
+                {
+                    player_conversant.selectChoice(node: choice);
+                    updateUI();
+                });
             }
         }
     }

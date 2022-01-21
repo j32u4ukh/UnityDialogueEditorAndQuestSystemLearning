@@ -36,6 +36,12 @@ namespace RPG.Dialogue
             return current_dialogue.getPlayerChildern(root: current_node);
         }
 
+        public void selectChoice(DialogueNode node)
+        {
+            current_node = node;
+            next();
+        }
+
         public void next()
         {
             int n_response = current_dialogue.getPlayerChildern(root: current_node).Count();

@@ -157,6 +157,28 @@ namespace RPG.Dialogue
             }
         }
 
+        public IEnumerable<DialogueNode> getPlayerChildern(DialogueNode root)
+        {
+            foreach(DialogueNode node in getNodeChildren(root))
+            {
+                if (node.isPlayerSpeaking())
+                {
+                    yield return node;
+                }
+            }
+        }
+
+        public IEnumerable<DialogueNode> getComChildern(DialogueNode root)
+        {
+            foreach(DialogueNode node in getNodeChildren(root))
+            {
+                if (!node.isPlayerSpeaking())
+                {
+                    yield return node;
+                }
+            }
+        }
+
         public DialogueNode getParentNode(DialogueNode child)
         {
             foreach(DialogueNode node in nodes)

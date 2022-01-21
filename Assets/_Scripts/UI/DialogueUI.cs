@@ -11,8 +11,11 @@ namespace RPG.UI
     public class DialogueUI : MonoBehaviour
     {
         PlayerConversant player_conversant;
+        [SerializeField] GameObject ai_response;
         [SerializeField] TextMeshProUGUI ai_text;
         [SerializeField] Button next_button;
+        [SerializeField] Transform choices;
+        [SerializeField] GameObject choice_prefab;
 
         // Start is called before the first frame update
         void Start()
@@ -31,11 +34,27 @@ namespace RPG.UI
         // Update is called once per frame
         void updateUI()
         {
-            ai_text.text = player_conversant.getText();
+            bool is_choosing = player_conversant.isChoosing();
+            ai_response.SetActive(!is_choosing);
+            choices.gameObject.SetActive(is_choosing);
 
-            if (!player_conversant.hasNext())
+            if (is_choosing)
             {
-                next_button.gameObject.SetActive(false);
+                foreach (Transform choice in choices)
+                {
+                    Destroy(choice.gameObject);
+                }
+
+                foreach (DialogueNode choice in player_conversant.getChoices())
+                {
+                    GameObject obj = Instantiate(choice_prefab, choices);
+                    obj.GetComponentInChildren<TextMeshProUGUI>().text = choice.getText();
+                }
+            }
+            else
+            {
+                ai_text.text = player_conversant.getText();
+                next_button.gameObject.SetActive(player_conversant.hasNext());
             }
         }
     }

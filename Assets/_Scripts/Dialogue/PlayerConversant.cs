@@ -8,32 +8,52 @@ namespace RPG.Dialogue
     public class PlayerConversant : MonoBehaviour
     {
         [SerializeField] Dialogue current_dialogue;
-        DialogueNode node = null;
+        DialogueNode current_node = null;
+        bool is_choosing = false;
 
         private void Awake()
         {
-            node = current_dialogue.getRootNode();
+            current_node = current_dialogue.getRootNode();
+        }
+
+        public bool isChoosing()
+        {
+            return is_choosing;
         }
 
         public string getText()
         {
-            if(node == null)
+            if(current_node == null)
             {
                 return "";
             }
 
-            return node.getText();
+            return current_node.getText();
+        }
+
+        public IEnumerable<DialogueNode> getChoices()
+        {
+            return current_dialogue.getPlayerChildern(root: current_node);
         }
 
         public void next()
         {
-            DialogueNode[] children = current_dialogue.getNodeChildren(root: node).ToArray();
-            node = children[Random.Range(0, children.Count())];
+            int n_response = current_dialogue.getPlayerChildern(root: current_node).Count();
+
+            if(n_response > 0)
+            {
+                is_choosing = true;
+                return;
+            }
+
+            is_choosing = false;
+            DialogueNode[] children = current_dialogue.getNodeChildren(root: current_node).ToArray();
+            current_node = children[Random.Range(0, children.Count())];
         }
 
         public bool hasNext()
         {
-            return node.getChildrenNumber() > 0;
+            return current_node.getChildrenNumber() > 0;
         }
     }
 }

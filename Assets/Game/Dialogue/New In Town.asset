@@ -22,6 +22,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
 --- !u!114 &-7857971825771128121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +46,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
 --- !u!114 &-6567201397359302170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +71,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: 
+  exit_action: 
 --- !u!114 &-4319747455293959653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +96,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: 
+  exit_action: TestAIExit
 --- !u!114 &-3549134356799878307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +119,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: 
+  exit_action: Attack
 --- !u!114 &-2449632553375734306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +143,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: TestSelection
+  exit_action: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +191,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: 
+  exit_action: 
 --- !u!114 &5078100909132352143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +215,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
 --- !u!114 &7085258128859202775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +240,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: TestRootEntry
+  exit_action: 
 --- !u!114 &8043113123490544789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +264,8 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
 --- !u!114 &8844249865728111594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,3 +288,5 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 

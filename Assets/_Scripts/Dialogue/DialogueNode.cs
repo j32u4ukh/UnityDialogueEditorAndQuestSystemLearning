@@ -11,6 +11,8 @@ namespace RPG.Dialogue
         [SerializeField] List<string> children;
         [SerializeField] Rect rect = new Rect(0f, 0f, 200f, 100f);
         [SerializeField] bool is_player_speaking;
+        [SerializeField] string enter_action;
+        [SerializeField] string exit_action;
 
         public static DialogueNode createInstance()
         {
@@ -56,6 +58,15 @@ namespace RPG.Dialogue
         public bool isPlayerSpeaking()
         {
             return is_player_speaking;
+        }
+
+        public string getEnterAction()
+        {
+            return enter_action;
+        }
+        public string getExitAction()
+        {
+            return exit_action;
         }
 
 #if UNITY_EDITOR

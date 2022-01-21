@@ -8,23 +8,18 @@ namespace RPG.Dialogue
 {
     public class PlayerConversant : MonoBehaviour
     {
-        [SerializeField] Dialogue test_dialogue;
         Dialogue current_dialogue;
         DialogueNode current_node = null;
         bool is_choosing = false;
 
         public event Action onConversationUpdated;
 
-        IEnumerator Start()
-        {
-            yield return new WaitForSeconds(2f);
-            startDialogue(test_dialogue);
-        }
-
         public void startDialogue(Dialogue dialogue)
         {
             current_dialogue = dialogue;
             current_node = current_dialogue.getRootNode();
+
+            triggerEnterAction();
             onConversationUpdated();
         }
 
@@ -55,7 +50,9 @@ namespace RPG.Dialogue
 
         public void selectChoice(DialogueNode node)
         {
+            triggerExitAction();
             current_node = node;
+            triggerEnterAction();
             next();
         }
 
@@ -66,12 +63,16 @@ namespace RPG.Dialogue
             if(n_response > 0)
             {
                 is_choosing = true;
+                triggerExitAction();
             }
             else
             {
                 is_choosing = false;
                 DialogueNode[] children = current_dialogue.getNodeChildren(root: current_node).ToArray();
+
+                triggerExitAction();
                 current_node = children[UnityEngine.Random.Range(0, children.Count())];
+                triggerEnterAction();
             }
 
             onConversationUpdated();
@@ -82,8 +83,26 @@ namespace RPG.Dialogue
             return current_node.getChildrenNumber() > 0;
         }
 
+        private void triggerEnterAction()
+        {
+            if(current_node != null && !current_node.getEnterAction().Equals(string.Empty))
+            {
+                Debug.Log(current_node.getEnterAction());
+            }
+        }
+
+        private void triggerExitAction()
+        {
+            if (current_node != null && !current_node.getExitAction().Equals(string.Empty))
+            {
+                Debug.Log(current_node.getExitAction());
+            }
+        }
+
         public void quit()
         {
+            triggerExitAction();
+
             current_dialogue = null;
             current_node = null;
             is_choosing = false;

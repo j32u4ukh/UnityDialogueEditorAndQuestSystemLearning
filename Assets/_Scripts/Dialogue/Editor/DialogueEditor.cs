@@ -151,9 +151,9 @@ namespace RPG.Dialogue.Editor
             {
                 GUILayout.BeginArea(screenRect: node.getRect(), style: npc_style);
             }
-            
-            //EditorGUI.BeginChangeCheck();
 
+            //EditorGUI.BeginChangeCheck();
+            
             // §ó·s DialogueNode ªº text
             node.setText(text: EditorGUILayout.TextField(node.getText()));
 

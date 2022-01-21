@@ -66,7 +66,7 @@ namespace RPG.Dialogue
         public void addNode(DialogueNode root, bool use_undo = true)
         {
             DialogueNode node = DialogueNode.createInstance();
-            Debug.Log($"addNode: {node.name}");
+            //Debug.Log($"addNode: {node.name}");
 
             if (root != null)
             {

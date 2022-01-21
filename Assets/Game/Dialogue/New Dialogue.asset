@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
   m_Name: 23b24288-31de-4e56-bf35-43bbec7fc668
   m_EditorClassIdentifier: 
-  text: 
+  text: b
   children:
   - 2fb1cd0e-3482-4a47-bef0-8eec70cba3eb
   rect:
     serializedVersion: 2
-    x: 256
-    y: 101
+    x: 292
+    y: 95
     width: 200
     height: 100
   is_player_speaking: 1
@@ -34,12 +34,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
   m_Name: 2fb1cd0e-3482-4a47-bef0-8eec70cba3eb
   m_EditorClassIdentifier: 
-  text: 
+  text: d
   children: []
   rect:
     serializedVersion: 2
-    x: 483
-    y: 16
+    x: 567
+    y: 23
     width: 200
     height: 100
   is_player_speaking: 0
@@ -55,12 +55,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
   m_Name: 12167cb9-17aa-4183-9f2f-569c61d9488c
   m_EditorClassIdentifier: 
-  text: 
+  text: c
   children: []
   rect:
     serializedVersion: 2
-    x: 264
-    y: 257
+    x: 327
+    y: 260
     width: 200
     height: 100
   is_player_speaking: 1
@@ -94,14 +94,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
   m_Name: ba58ef91-8e1d-4e28-b531-8d140ed47504
   m_EditorClassIdentifier: 
-  text: 123
+  text: a
   children:
   - 12167cb9-17aa-4183-9f2f-569c61d9488c
   - 23b24288-31de-4e56-bf35-43bbec7fc668
   rect:
     serializedVersion: 2
-    x: 9
-    y: 172
+    x: 39
+    y: 170
     width: 200
     height: 100
   is_player_speaking: 0

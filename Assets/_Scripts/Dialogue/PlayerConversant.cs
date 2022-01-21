@@ -81,5 +81,13 @@ namespace RPG.Dialogue
         {
             return current_node.getChildrenNumber() > 0;
         }
+
+        public void quit()
+        {
+            current_dialogue = null;
+            current_node = null;
+            is_choosing = false;
+            onConversationUpdated();
+        }
     }
 }

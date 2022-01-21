@@ -16,24 +16,30 @@ namespace RPG.UI
         [SerializeField] Button next_button;
         [SerializeField] Transform choices;
         [SerializeField] GameObject choice_prefab;
+        [SerializeField] Button quit_button;
 
         // Start is called before the first frame update
         void Start()
         {
             player_conversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
             player_conversant.onConversationUpdated += updateUI;
-            next_button.onClick.AddListener(next);
-            //updateUI();
-        }
-
-        void next()
-        {
-            player_conversant.next();
+            next_button.onClick.AddListener(() => player_conversant.next());
+            quit_button.onClick.AddListener(()=> {
+                player_conversant.quit();
+            });
+            updateUI();
         }
 
         // Update is called once per frame
         void updateUI()
         {
+            gameObject.SetActive(player_conversant.isActive());
+
+            if (!player_conversant.isActive())
+            {
+                return;
+            }
+
             bool is_choosing = player_conversant.isChoosing();
             ai_response.SetActive(!is_choosing);
             choices.gameObject.SetActive(is_choosing);

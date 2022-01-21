@@ -48,6 +48,11 @@ namespace RPG.Dialogue
             return children;
         }
 
+        public int getChildrenNumber()
+        {
+            return children.Count;
+        }
+
         public bool isPlayerSpeaking()
         {
             return is_player_speaking;

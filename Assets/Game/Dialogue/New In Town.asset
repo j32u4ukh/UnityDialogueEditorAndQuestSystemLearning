@@ -263,8 +263,8 @@ MonoBehaviour:
   - 687acaf0-7409-4d7e-8367-92ed5162df35
   rect:
     serializedVersion: 2
-    x: 806
-    y: 202
+    x: 808
+    y: 203
     width: 200
     height: 100
   is_player_speaking: 1

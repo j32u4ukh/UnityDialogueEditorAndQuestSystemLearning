@@ -20,8 +20,13 @@ namespace GameDevTV.UI
         {
             if (Input.GetKeyDown(toggleKey))
             {
-                uiContainer.SetActive(!uiContainer.activeSelf);
+                toggleUI();
             }
+        }
+
+        public void toggleUI()
+        {
+            uiContainer.SetActive(!uiContainer.activeSelf);
         }
     }
 }

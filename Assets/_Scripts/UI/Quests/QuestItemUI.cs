@@ -10,18 +10,24 @@ namespace RPG.UI.Quests
     {
         [SerializeField] TextMeshProUGUI title;
         [SerializeField] TextMeshProUGUI progress;
-        Quest quest;
+        QuestStatus status;
 
-        public void setUp(Quest quest)
+        public void setUp(QuestStatus status)
         {
-            this.quest = quest;
+            this.status = status;
+            Quest quest = status.getQuest();
             title.text = quest.getTitle();
-            progress.text = $"0/{quest.getObjectiveNumber()}";
+            progress.text = $"{status.getCompletedNumber()}/{quest.getObjectiveNumber()}";
+        }
+
+        public QuestStatus getQuestStatus()
+        {
+            return status;
         }
 
         public Quest getQuest()
         {
-            return quest;
+            return status.getQuest();
         }
     }
 }

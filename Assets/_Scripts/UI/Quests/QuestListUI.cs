@@ -7,7 +7,7 @@ namespace RPG.UI.Quests
 {
     public class QuestListUI : MonoBehaviour
     {
-        [SerializeField] Quest[] temp_quests;
+        [SerializeField] Quest[] quests;
         [SerializeField] QuestItemUI quest_prefab;
 
         // Start is called before the first frame update
@@ -18,10 +18,12 @@ namespace RPG.UI.Quests
                 Destroy(item.gameObject);
             }
 
-            foreach (Quest quest in temp_quests)
+            QuestList quest_list = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
+
+            foreach (QuestStatus status in quest_list.getStatuses())
             {
                 QuestItemUI ui_instance = Instantiate(quest_prefab, transform);
-                ui_instance.setUp(quest);
+                ui_instance.setUp(status);
             }
         }
     }

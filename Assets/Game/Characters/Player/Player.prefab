@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c127d0194441542a638a94fdab8f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_dialogue: {fileID: 11400000, guid: 7340b6dfd2a73554bad5fbfb8daec6d6, type: 2}
+  player_name: PPT
 --- !u!114 &7122694563460434362
 MonoBehaviour:
   m_ObjectHideFlags: 0

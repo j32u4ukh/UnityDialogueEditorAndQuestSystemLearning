@@ -8,14 +8,17 @@ namespace RPG.Dialogue
 {
     public class PlayerConversant : MonoBehaviour
     {
+        [SerializeField] string player_name;
         Dialogue current_dialogue;
         DialogueNode current_node = null;
+        AIConversant npc_conversant = null;
         bool is_choosing = false;
 
         public event Action onConversationUpdated;
 
-        public void startDialogue(Dialogue dialogue)
+        public void startDialogue(AIConversant npc_conversant, Dialogue dialogue)
         {
+            this.npc_conversant = npc_conversant;
             current_dialogue = dialogue;
             current_node = current_dialogue.getRootNode();
 
@@ -56,6 +59,18 @@ namespace RPG.Dialogue
             next();
         }
 
+        public string getCurrentCoversantName()
+        {
+            if (is_choosing)
+            {
+                return player_name;
+            }
+            else
+            {
+                return npc_conversant.getName();
+            }
+        }
+
         public void next()
         {
             int n_response = current_dialogue.getPlayerChildern(root: current_node).Count();
@@ -85,17 +100,32 @@ namespace RPG.Dialogue
 
         private void triggerEnterAction()
         {
-            if(current_node != null && !current_node.getEnterAction().Equals(string.Empty))
+            if(current_node != null)
             {
                 Debug.Log(current_node.getEnterAction());
+                triggerAction(action: current_node.getEnterAction());
             }
         }
 
         private void triggerExitAction()
         {
-            if (current_node != null && !current_node.getExitAction().Equals(string.Empty))
+            if (current_node != null)
             {
                 Debug.Log(current_node.getExitAction());
+                triggerAction(action: current_node.getExitAction());
+            }
+        }
+
+        void triggerAction(string action)
+        {
+            if (action.Equals(string.Empty))
+            {
+                return;
+            }
+
+            foreach(DialogueTrigger dt in npc_conversant.GetComponents<DialogueTrigger>())
+            {
+                dt.trigger(action);
             }
         }
 
@@ -103,9 +133,11 @@ namespace RPG.Dialogue
         {
             triggerExitAction();
 
+            npc_conversant = null;
             current_dialogue = null;
             current_node = null;
             is_choosing = false;
+
             onConversationUpdated();
         }
     }

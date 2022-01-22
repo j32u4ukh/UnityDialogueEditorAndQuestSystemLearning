@@ -8,6 +8,7 @@ namespace RPG.Dialogue
     public class AIConversant : MonoBehaviour, IRaycastable
     {
         [SerializeField] Dialogue dialogue = null;
+        [SerializeField] string npc_name;
 
         public CursorType GetCursorType()
         {
@@ -23,10 +24,16 @@ namespace RPG.Dialogue
 
             if (Input.GetMouseButtonDown(0))
             {
-                callingController.GetComponent<PlayerConversant>().startDialogue(dialogue);
+                callingController.GetComponent<PlayerConversant>().startDialogue(
+                    npc_conversant: this, dialogue: dialogue);
             }
 
             return true;
+        }
+
+        public string getName()
+        {
+            return npc_name;
         }
     }
 }

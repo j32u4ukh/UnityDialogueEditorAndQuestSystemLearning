@@ -9,16 +9,23 @@ namespace RPG.UI.Quests
     {
         [SerializeField] Quest[] quests;
         [SerializeField] QuestItemUI quest_prefab;
+        QuestList quest_list;
 
         // Start is called before the first frame update
         void Start()
+        {
+            quest_list = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
+            quest_list.onListUpdated += updateQuestListUI;
+
+            updateQuestListUI();
+        }
+
+        void updateQuestListUI()
         {
             foreach (Transform item in transform)
             {
                 Destroy(item.gameObject);
             }
-
-            QuestList quest_list = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
 
             foreach (QuestStatus status in quest_list.getStatuses())
             {

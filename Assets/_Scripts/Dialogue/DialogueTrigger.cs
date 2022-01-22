@@ -12,11 +12,8 @@ namespace RPG.Dialogue
 
         public void trigger(string action_trigger)
         {
-            Debug.Log($"[DialogueTrigger] {action_trigger}");
-
             if (action_trigger.Equals(action))
             {
-                Debug.Log("Invoke onTrigger");
                 onTrigger.Invoke();
             }
         }

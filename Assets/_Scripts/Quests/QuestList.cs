@@ -26,17 +26,33 @@ namespace RPG.Quests
             }
         }
 
+        public void completeObjective(Quest quest, string objective)
+        {
+            QuestStatus status = getQuestStatus(quest);
+            status.completeObjective(objective);
+
+            if (onListUpdated != null)
+            {
+                onListUpdated();
+            }
+        }
+
         private bool hasQuest(Quest quest)
         {
-            foreach(QuestStatus status in statuses)
+            return getQuestStatus(quest) != null;
+        }
+
+        private QuestStatus getQuestStatus(Quest quest)
+        {
+            foreach (QuestStatus status in statuses)
             {
                 if (status.getQuest().Equals(quest))
                 {
-                    return true;
+                    return status;
                 }
             }
 
-            return false;
+            return null;
         }
 
         public IEnumerable<QuestStatus> getStatuses()

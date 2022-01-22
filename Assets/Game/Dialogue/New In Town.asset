@@ -192,7 +192,7 @@ MonoBehaviour:
     height: 100
   is_player_speaking: 0
   enter_action: 
-  exit_action: 
+  exit_action: TestObjective
 --- !u!114 &5078100909132352143
 MonoBehaviour:
   m_ObjectHideFlags: 0

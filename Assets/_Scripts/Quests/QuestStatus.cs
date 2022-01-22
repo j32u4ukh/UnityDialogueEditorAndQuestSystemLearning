@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,14 @@ namespace RPG.Quests
         public bool isObjectiveComplete(string objective)
         {
             return completed_objectives.Contains(objective);
+        }
+
+        public void completeObjective(string objective)
+        {
+            if (quest.hasObjective(objective))
+            {
+                completed_objectives.Add(objective);
+            }
         }
     }
 }

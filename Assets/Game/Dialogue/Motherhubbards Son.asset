@@ -23,6 +23,9 @@ MonoBehaviour:
   is_player_speaking: 1
   enter_action: 
   exit_action: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &-6126971449139031257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,6 +42,7 @@ MonoBehaviour:
   children:
   - 2dcfd3c7-1e2a-4dde-ac86-3ffbf4a52082
   - 0a56a12d-6467-4b84-aff9-880fc51f05f7
+  - 6f2d666a-9f72-43f9-b265-684d4fd23b53
   rect:
     serializedVersion: 2
     x: 80
@@ -48,6 +52,9 @@ MonoBehaviour:
   is_player_speaking: 0
   enter_action: 
   exit_action: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &-3614662537198038790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,13 +71,16 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 570
-    y: 316
+    x: 594
+    y: 228
     width: 200
     height: 100
   is_player_speaking: 0
   enter_action: 
   exit_action: GiveQuest
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +98,37 @@ MonoBehaviour:
   - {fileID: -6452536207741303110}
   - {fileID: 8301167052177827620}
   - {fileID: -3614662537198038790}
+  - {fileID: 2233026714926897809}
+  - {fileID: 8348347675841052953}
   new_node_offset: {x: 250, y: 0}
+--- !u!114 &2233026714926897809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
+  m_Name: 6f2d666a-9f72-43f9-b265-684d4fd23b53
+  m_EditorClassIdentifier: 
+  text: I'm already on the case.
+  children:
+  - 59b032a1-3d86-4e75-ae38-e3cf2c4f3f93
+  rect:
+    serializedVersion: 2
+    x: 340
+    y: 377
+    width: 200
+    height: 100
+  is_player_speaking: 1
+  enter_action: 
+  exit_action: 
+  condition:
+    predicate: HasQuest
+    parameters:
+    - Mother hubbards bunions
 --- !u!114 &8301167052177827620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,10 +146,39 @@ MonoBehaviour:
   - f318f527-7710-49c8-8982-53f63415d8f9
   rect:
     serializedVersion: 2
-    x: 320
-    y: 316
+    x: 330
+    y: 224
     width: 200
     height: 100
   is_player_speaking: 1
   enter_action: 
   exit_action: 
+  condition:
+    predicate: 
+    parameters: []
+--- !u!114 &8348347675841052953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0043536f67fce84ab2bd1b1ab41e350, type: 3}
+  m_Name: 59b032a1-3d86-4e75-ae38-e3cf2c4f3f93
+  m_EditorClassIdentifier: 
+  text: Oops, bad memory.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 601
+    y: 379
+    width: 200
+    height: 100
+  is_player_speaking: 0
+  enter_action: 
+  exit_action: 
+  condition:
+    predicate: 
+    parameters: []

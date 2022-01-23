@@ -1,3 +1,5 @@
+using RPG.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -13,6 +15,7 @@ namespace RPG.Dialogue
         [SerializeField] bool is_player_speaking;
         [SerializeField] string enter_action;
         [SerializeField] string exit_action;
+        [SerializeField] Condition condition;
 
         public static DialogueNode createInstance()
         {
@@ -64,9 +67,15 @@ namespace RPG.Dialogue
         {
             return enter_action;
         }
+
         public string getExitAction()
         {
             return exit_action;
+        }
+
+        public bool checkCondition(IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            return condition.check(evaluators);
         }
 
 #if UNITY_EDITOR
@@ -108,7 +117,6 @@ namespace RPG.Dialogue
             is_player_speaking = is_player;
             EditorUtility.SetDirty(this);
         }
-
 #endif
     }
 }

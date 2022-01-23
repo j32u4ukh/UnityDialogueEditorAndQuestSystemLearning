@@ -130,7 +130,6 @@ namespace RPG.Dialogue
             return null;
         }
 
-
         public DialogueNode getNode(string unique_id)
         {
             if (node_dict.ContainsKey(unique_id))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Quests;
 using TMPro;
+using System;
 
 namespace RPG.UI.Quests
 {
@@ -12,7 +13,7 @@ namespace RPG.UI.Quests
         [SerializeField] Transform objective_container;
         [SerializeField] GameObject objective_prefab;
         [SerializeField] GameObject imcompleted_objective_prefab;
-
+        [SerializeField] TextMeshProUGUI reward;
 
         public void setUp(QuestStatus status)
         {
@@ -40,6 +41,37 @@ namespace RPG.UI.Quests
                 TextMeshProUGUI objective_text = instance.GetComponentInChildren<TextMeshProUGUI>();
                 objective_text.text = objective.description;
             }
+
+            reward.text = getRewardText(quest);
+        }
+
+        private string getRewardText(Quest quest)
+        {
+            string text = "";
+
+            foreach (Quest.Reward reward in quest.getRewards())
+            {
+                if (!text.Equals(string.Empty))
+                {
+                    text += ", ";
+                }
+
+                if(reward.number > 1)
+                {
+                    text += $"{reward.number} ";
+                }
+
+                text += reward.item.GetDisplayName();
+            }
+
+            if (text.Equals(string.Empty))
+            {
+                text = "No reward";
+            }
+
+            text += ".";
+
+            return text;
         }
     }
 }

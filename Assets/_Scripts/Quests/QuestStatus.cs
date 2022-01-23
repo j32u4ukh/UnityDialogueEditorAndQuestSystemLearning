@@ -31,6 +31,20 @@ namespace RPG.Quests
             completed_objectives = record.completed_objectives;
         }
 
+        public bool isComplete()
+        {
+            //return getCompletedNumber() == quest.getObjectiveNumber();
+            foreach(Quest.Objective objective in quest.getObjectives())
+            {
+                if (!completed_objectives.Contains(objective.reference))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public Quest getQuest()
         {
             return quest;

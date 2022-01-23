@@ -102,7 +102,7 @@ namespace RPG.Dialogue
         {
             if(current_node != null)
             {
-                Debug.Log(current_node.getEnterAction());
+                //Debug.Log(current_node.getEnterAction());
                 triggerAction(action: current_node.getEnterAction());
             }
         }
@@ -111,7 +111,7 @@ namespace RPG.Dialogue
         {
             if (current_node != null)
             {
-                Debug.Log(current_node.getExitAction());
+                Debug.Log($"triggerExitAction: {current_node.getExitAction()}");
                 triggerAction(action: current_node.getExitAction());
             }
         }

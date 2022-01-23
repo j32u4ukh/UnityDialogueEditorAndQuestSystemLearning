@@ -474,6 +474,7 @@ MonoBehaviour:
     type: 3}
   imcompleted_objective_prefab: {fileID: 7945835083814618270, guid: cc06e08b3cc38474d809423cba7c85d5,
     type: 3}
+  reward: {fileID: 5539757436510858357}
 --- !u!1 &4915803460299007992
 GameObject:
   m_ObjectHideFlags: 0

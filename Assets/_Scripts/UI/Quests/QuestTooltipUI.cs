@@ -24,11 +24,11 @@ namespace RPG.UI.Quests
                 Destroy(item.gameObject);
             }
 
-            foreach(string objective in quest.getObjectives())
+            foreach(Quest.Objective objective in quest.getObjectives())
             {
                 GameObject instance;
 
-                if (status.isObjectiveComplete(objective))
+                if (status.isObjectiveComplete(objective.reference))
                 {
                     instance = Instantiate(objective_prefab, objective_container);
                 }
@@ -38,7 +38,7 @@ namespace RPG.UI.Quests
                 }
 
                 TextMeshProUGUI objective_text = instance.GetComponentInChildren<TextMeshProUGUI>();
-                objective_text.text = objective;
+                objective_text.text = objective.description;
             }
         }
     }

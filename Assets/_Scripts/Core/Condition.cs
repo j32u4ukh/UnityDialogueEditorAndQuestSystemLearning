@@ -7,20 +7,13 @@ namespace RPG.Core
     [System.Serializable]
     public class Condition
     {
-        [SerializeField] string predicate;
-        [SerializeField] string[] parameters;
+        [SerializeField] Disjunction[] and;
 
         public bool check(IEnumerable<IPredicateEvaluator> evaluators)
         {
-            foreach(var evaluator in evaluators)
+            foreach (Disjunction disjunction in and)
             {
-                bool? result = evaluator.evalute(predicate, parameters);
-
-                if(result == null)
-                {
-                    continue;
-                }
-                else if (result == false)
+                if (!disjunction.check(evaluators))
                 {
                     return false;
                 }
@@ -28,5 +21,53 @@ namespace RPG.Core
 
             return true;
         }
+
+        [System.Serializable]
+        class Disjunction
+        {
+            [SerializeField] Predicate[] or;
+
+            public bool check(IEnumerable<IPredicateEvaluator> evaluators)
+            {
+                foreach (Predicate predicate in or)
+                {
+                    if (predicate.check(evaluators))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        [System.Serializable]
+        class Predicate
+        {
+            [SerializeField] string predicate;
+            [SerializeField] string[] parameters;
+            [SerializeField] bool negate = false;
+
+            public bool check(IEnumerable<IPredicateEvaluator> evaluators)
+            {
+                foreach (var evaluator in evaluators)
+                {
+                    bool? result = evaluator.evalute(predicate, parameters);
+
+                    if (result == null)
+                    {
+                        continue;
+                    }
+                    else if (result == negate)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        
     }
 }

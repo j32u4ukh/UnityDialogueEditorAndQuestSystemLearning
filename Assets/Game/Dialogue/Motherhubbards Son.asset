@@ -24,8 +24,7 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: 
-    parameters: []
+    and: []
 --- !u!114 &-6452536207741303110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,8 +49,7 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: 
-    parameters: []
+    and: []
 --- !u!114 &-6126971449139031257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,8 +78,7 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: 
-    parameters: []
+    and: []
 --- !u!114 &-3614662537198038790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,8 +103,7 @@ MonoBehaviour:
   enter_action: 
   exit_action: GiveQuest
   condition:
-    predicate: 
-    parameters: []
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +151,21 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: HasInventoryItem
-    parameters:
-    - 42daefd9-df5b-40e8-9b21-58f7b7c4218e
+    and:
+    - or:
+      - predicate: HasQuest
+        parameters:
+        - Mother hubbards bunions
+        negate: 0
+    - or:
+      - predicate: CompletedQuest
+        parameters:
+        - Mother hubbards bunions
+        negate: 0
+      - predicate: HasInventoryItem
+        parameters:
+        - 42daefd9-df5b-40e8-9b21-58f7b7c4218e
+        negate: 0
 --- !u!114 &2233026714926897809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,9 +191,17 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: HasQuest
-    parameters:
-    - Mother hubbards bunions
+    and:
+    - or:
+      - predicate: HasQuest
+        parameters:
+        - Mother hubbards bunions
+        negate: 0
+    - or:
+      - predicate: CompletedQuest
+        parameters:
+        - Mother hubbards bunions
+        negate: 1
 --- !u!114 &8301167052177827620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +227,12 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: 
-    parameters: []
+    and:
+    - or:
+      - predicate: HasQuest
+        parameters:
+        - Mother hubbards bunions
+        negate: 1
 --- !u!114 &8348347675841052953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,5 +257,4 @@ MonoBehaviour:
   enter_action: 
   exit_action: 
   condition:
-    predicate: 
-    parameters: []
+    and: []

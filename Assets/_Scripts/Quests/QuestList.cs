@@ -114,12 +114,15 @@ namespace RPG.Quests
 
         public bool? evalute(string predicate, string[] parameters)
         {
-            if (!predicate.Equals("HasQuest"))
+            switch (predicate)
             {
-                return null;
+                case "HasQuest":
+                    return hasQuest(Quest.getByName(parameters[0]));
+                case "CompletedQuest":
+                    return getQuestStatus(Quest.getByName(parameters[0])).isComplete();
+                default:
+                    return null;
             }
-
-            return hasQuest(Quest.getByName(parameters[0]));
         }
     }
 

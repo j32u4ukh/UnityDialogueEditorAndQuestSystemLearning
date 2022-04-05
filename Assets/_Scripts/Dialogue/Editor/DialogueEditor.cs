@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+ï»¿using System;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using System;
+using UnityEngine;
 
 namespace RPG.Dialogue.Editor
 {
-    // EditorWindow ¤¤ªºÄİ©ÊÅÜ¼Æ¹w³]¬° SerializeField¡A¦]¦¹·í­«·s¶}±Ò­¶ÅÒ¡AÅÜ¼Æ¤¤¥i¯àÁÙ¦sµÛ¤W¤@¦¸¾Ş§@®Éªº¼Æ­È¡A¾É­P«D¹w´Áµ²ªG
-    // ¦]¦¹¨Ï¥Î NonSerialized ½T«OÅÜ¼Æ¦b¤U¦¸¸ü¤J®É¡A·|¬OªÅªº¡C¦ı selected_dialogue §Æ±æÄ~Äò°O±o¡A¦]¦¹¤£²K¥[¡C
+    // EditorWindow ä¸­çš„å±¬æ€§è®Šæ•¸é è¨­ç‚º SerializeFieldï¼Œå› æ­¤ç•¶é‡æ–°é–‹å•Ÿé ç±¤ï¼Œè®Šæ•¸ä¸­å¯èƒ½é‚„å­˜è‘—ä¸Šä¸€æ¬¡æ“ä½œæ™‚çš„æ•¸å€¼ï¼Œå°è‡´éé æœŸçµæœ
+    // å› æ­¤ä½¿ç”¨ NonSerialized ç¢ºä¿è®Šæ•¸åœ¨ä¸‹æ¬¡è¼‰å…¥æ™‚ï¼Œæœƒæ˜¯ç©ºçš„ã€‚ä½† selected_dialogue å¸Œæœ›ç¹¼çºŒè¨˜å¾—ï¼Œå› æ­¤ä¸æ·»åŠ ã€‚
     public class DialogueEditor : EditorWindow
     {
         Dialogue selected_dialogue = null;
@@ -57,7 +55,7 @@ namespace RPG.Dialogue.Editor
 
         private void OnGUI()
         {
-            // °Ñ¦Òºô¯¸ 1: https://docs.unity3d.com/ScriptReference/EditorGUILayout.html
+            // åƒè€ƒç¶²ç«™ 1: https://docs.unity3d.com/ScriptReference/EditorGUILayout.html
             if(selected_dialogue == null)
             {
                 EditorGUILayout.LabelField("No Dialogue Selected.");
@@ -84,7 +82,7 @@ namespace RPG.Dialogue.Editor
                 Rect coords = new Rect(0f, 0f, CANVAS_SIZE / BACKGROUND_SIZE, CANVAS_SIZE / BACKGROUND_SIZE);
                 GUI.DrawTextureWithTexCoords(canvas, texture, coords);
 
-                // ¥ıÃ¸»s Connection ¦AÃ¸»s Node¡A¥iÁ×§K Connection µe¨ì Node ¤§¤W
+                // å…ˆç¹ªè£½ Connection å†ç¹ªè£½ Nodeï¼Œå¯é¿å… Connection ç•«åˆ° Node ä¹‹ä¸Š
                 foreach (DialogueNode node in selected_dialogue.getAllNodes())
                 {
                     drawConnection(node);
@@ -154,7 +152,7 @@ namespace RPG.Dialogue.Editor
 
             //EditorGUI.BeginChangeCheck();
             
-            // §ó·s DialogueNode ªº text
+            // æ›´æ–° DialogueNode çš„ text
             node.setText(text: EditorGUILayout.TextField(node.getText()));
 
             GUILayout.BeginHorizontal();
@@ -203,7 +201,7 @@ namespace RPG.Dialogue.Editor
                 }
             }
 
-            // ·í«e node §Y¬° linking_parent_node
+            // ç•¶å‰ node å³ç‚º linking_parent_node
             else
             {
                 if (GUILayout.Button("cancel"))
@@ -233,31 +231,33 @@ namespace RPG.Dialogue.Editor
             }
         }
 
-        // ¶}±Ò Editor µøµ¡
+        // é–‹å•Ÿ Editor è¦–çª—
         [MenuItem("Window/Dialogue Editor")]
         public static void showEditorWindow()
         {
-            // °Ñ¦Òºô¯¸ 1: https://docs.unity3d.com/ScriptReference/EditorWindow.GetWindow.html
+            // åƒè€ƒç¶²ç«™ 1: https://docs.unity3d.com/ScriptReference/EditorWindow.GetWindow.html
             //Debug.Log("showEditorWindow()");
-            // utility: true ¸Óµøµ¡¤£·|§Î¦¨­¶ÅÒ¡AµLªk²K¥[¨ì­ì¥»ªºµøµ¡·í¤¤¡A¦Ó¬O¿W¥ß¤@­Óµøµ¡¡C³q±`¥Î©ó¸Ó¥\¯à¬°¤@¦¸©Ê¡A¤£·|¤ÏÂĞ¨Ï¥Î¨ì
-            // utility: false ·|§Î¦¨­¶ÅÒ¡A¥i¥H²K¥[¨ì­ì¥»ªºµøµ¡·í¤¤¡C³q±`¥Î©ó¸Ó¥\¯à·|¤ÏÂĞ¨Ï¥Î¡C
+            // utility: true è©²è¦–çª—ä¸æœƒå½¢æˆé ç±¤ï¼Œç„¡æ³•æ·»åŠ åˆ°åŸæœ¬çš„è¦–çª—ç•¶ä¸­ï¼Œè€Œæ˜¯ç¨ç«‹ä¸€å€‹è¦–çª—ã€‚é€šå¸¸ç”¨æ–¼è©²åŠŸèƒ½ç‚ºä¸€æ¬¡æ€§ï¼Œä¸æœƒåè¦†ä½¿ç”¨åˆ°
+            // utility: false æœƒå½¢æˆé ç±¤ï¼Œå¯ä»¥æ·»åŠ åˆ°åŸæœ¬çš„è¦–çª—ç•¶ä¸­ã€‚é€šå¸¸ç”¨æ–¼è©²åŠŸèƒ½æœƒåè¦†ä½¿ç”¨ã€‚
             GetWindow(t: typeof(DialogueEditor), utility: false, title: "Dialogue Editor");
         }
 
         // OnOpenAssetAttribute -> using UnityEditor.Callbacks;
-        // 1: OnOpenAssetAttribute ©I¥s¶¶§Ç
-        // ©Ò¦³ asset ÂIÀ»«á³£·|Ä²µo¦¹¨ç¦¡¡A¦]¦¹»İ­n§Q¥Î instance_id ¤À¿ëÂIÀ»ªº¹ï¶H¡A¬O§_¬O§Ú­Ì­n³B²zªº asset¡A¨Ãªğ¦^¬O§_¥i¥H³B²z
-        // °Ñ¦Òºô¯¸ 1: https://docs.unity3d.com/ScriptReference/Callbacks.OnOpenAssetAttribute.html
-        // °Ñ¦Òºô¯¸ 2: https://docs.unity3d.com/ScriptReference/EditorUtility.InstanceIDToObject.html
+        // 1: OnOpenAssetAttribute å‘¼å«é †åº
+        // æ‰€æœ‰ asset é»æ“Šå¾Œéƒ½æœƒè§¸ç™¼æ­¤å‡½å¼ï¼Œå› æ­¤éœ€è¦åˆ©ç”¨ instance_id åˆ†è¾¨é»æ“Šçš„å°è±¡ï¼Œæ˜¯å¦æ˜¯æˆ‘å€‘è¦è™•ç†çš„ assetï¼Œä¸¦è¿”å›æ˜¯å¦å¯ä»¥è™•ç†
+        // åƒè€ƒç¶²ç«™ 1: https://docs.unity3d.com/ScriptReference/Callbacks.OnOpenAssetAttribute.html
+        // åƒè€ƒç¶²ç«™ 2: https://docs.unity3d.com/ScriptReference/EditorUtility.InstanceIDToObject.html
         [OnOpenAsset(1)]
         public static bool onOpenAsset(int instance_id, int line)
         {
-            // ­Y§Q¥Î instance_id ©Ò¨ú±oªº Object ¹ê»Ú¤W¤£¬O Dialogue¡A«h±N¬° null
+            Debug.Log($"[DialogueEditor] onOpenAsset | instance_id: {instance_id}, line: {line}");
+
+            // è‹¥åˆ©ç”¨ instance_id æ‰€å–å¾—çš„ Object å¯¦éš›ä¸Šä¸æ˜¯ Dialogueï¼Œå‰‡å°‡ç‚º null
             Dialogue dialogue = EditorUtility.InstanceIDToObject(instance_id) as Dialogue;
 
             if (dialogue != null)
             {
-                //Debug.Log("onOpenDialogue");
+                Debug.Log($"[DialogueEditor] onOpenAsset | openDialogue");
                 showEditorWindow();
                 return true;
             }

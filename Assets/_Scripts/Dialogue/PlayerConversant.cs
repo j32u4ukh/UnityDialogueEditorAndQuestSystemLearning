@@ -96,7 +96,9 @@ namespace RPG.Dialogue
 
         public bool hasNext()
         {
-            return filterOnCondition(current_dialogue.getAllNodes()).Count() > 0;
+            int n_node = filterOnCondition(current_dialogue.getNodeChildren(root: current_node)).Count();
+
+            return n_node > 0;
         }
 
         private IEnumerable<DialogueNode> filterOnCondition(IEnumerable<DialogueNode> nodes)

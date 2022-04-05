@@ -1,4 +1,4 @@
-using RPG.Core;
+﻿using RPG.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -83,9 +83,11 @@ namespace RPG.Dialogue
         {
             if (!this.text.Equals(text))
             {
-                // �����ק���{�A�i�Q�� ctrl + Z �^��W�@�Ӫ��A
+                // 紀錄修改歷程，可利用 ctrl + Z 回到上一個狀態
                 Undo.RecordObject(this, "[DialogueNode] setText");
                 this.text = text;
+
+                // Undo.RecordObject 雖然在 Editor 可發揮 SetDirty 的效果，將改變儲存到記憶體，但並無法讓改變被寫入硬體，因此還是需要再呼叫一次 SetDirty
                 EditorUtility.SetDirty(this);
             }
         }

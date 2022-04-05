@@ -21,6 +21,10 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
+  condition:
+    and: []
 --- !u!114 &-3766814584809460134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +46,10 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 1
+  enter_action: 
+  exit_action: 
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,3 +90,7 @@ MonoBehaviour:
     width: 200
     height: 100
   is_player_speaking: 0
+  enter_action: 
+  exit_action: 
+  condition:
+    and: []

@@ -220,7 +220,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 330
-    y: 224
+    y: 225
     width: 200
     height: 100
   is_player_speaking: 1
@@ -249,8 +249,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 601
-    y: 379
+    x: 607
+    y: 369
     width: 200
     height: 100
   is_player_speaking: 0

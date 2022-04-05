@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RPG.Dialogue
 {
-    // CreateAssetMenu ³o¦æ¨Ï±o¦b Asset ·í¤¤«ö¥kÁä®É¥i²£¥Í¬Û¹ïÀ³ªºÀÉ®×
+    // CreateAssetMenu é€™è¡Œä½¿å¾—åœ¨ Asset ç•¶ä¸­æŒ‰å³éµæ™‚å¯ç”¢ç”Ÿç›¸å°æ‡‰çš„æª”æ¡ˆ
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
@@ -15,9 +15,9 @@ namespace RPG.Dialogue
         Dictionary<string, DialogueNode> node_dict = new Dictionary<string, DialogueNode>();
 
         /// <summary>
-        /// ½s¿è¾¹¼Ò¦¡¤U OnValidate ¶È¦b¤U­±¨âºØ±¡ªp¤U³Q½Õ¥Î¡G
-        /// 1. ¸}¥»³Q¥[¸ü®É
-        /// 2. Inspector ¤¤ªº¥ô¦ó­È³Q­×§ï®É
+        /// ç·¨è¼¯å™¨æ¨¡å¼ä¸‹ OnValidate åƒ…åœ¨ä¸‹é¢å…©ç¨®æƒ…æ³ä¸‹è¢«èª¿ç”¨ï¼š
+        /// 1. è…³æœ¬è¢«åŠ è¼‰æ™‚
+        /// 2. Inspector ä¸­çš„ä»»ä½•å€¼è¢«ä¿®æ”¹æ™‚
         /// </summary>
         private void OnValidate()
         {
@@ -34,7 +34,7 @@ namespace RPG.Dialogue
         // Implement this method to receive a callback before Unity serializes your object.
         public void OnBeforeSerialize()
         {
-            // §»¼g¦b¦¹³B¦Ó«D¨ç¦¡¥~­±¡A¬O¦]¬°Ä~©Ó¤F ISerializationCallbackReceiver ´N¥²¶·¹ê§@¦¹¨ç¦¡¡A¤£¯à¥u¦b½s¿è¾¹¼Ò¦¡¤U¦³³o­Ó¨ç¦¡
+            // å®å¯«åœ¨æ­¤è™•è€Œéå‡½å¼å¤–é¢ï¼Œæ˜¯å› ç‚ºç¹¼æ‰¿äº† ISerializationCallbackReceiver å°±å¿…é ˆå¯¦ä½œæ­¤å‡½å¼ï¼Œä¸èƒ½åªåœ¨ç·¨è¼¯å™¨æ¨¡å¼ä¸‹æœ‰é€™å€‹å‡½å¼
 #if UNITY_EDITOR
             if (nodes.Count == 0)
             {
@@ -89,13 +89,15 @@ namespace RPG.Dialogue
         public void removeNode(DialogueNode node)
         {
             Undo.RecordObject(this, "[Dialogue] removeNode");
-            DialogueNode parent = getParentNode(child: node);
+            //DialogueNode parent = getParentNode(child: node);
 
-            if(parent != null)
-            {
-                parent.removeChild(node.name);
-            }
-            
+            //if(parent != null)
+            //{
+            //    parent.removeChild(node.name);
+            //}
+            cleanDanglingChildren(node);
+
+
             nodes.Remove(node);
             //node_dict.Remove(node.name);
             OnValidate();
@@ -178,17 +180,12 @@ namespace RPG.Dialogue
             }
         }
 
-        public DialogueNode getParentNode(DialogueNode child)
+        private void cleanDanglingChildren(DialogueNode child)
         {
-            foreach(DialogueNode node in nodes)
+            foreach (DialogueNode node in nodes)
             {
-                if (node.containChild(child.name))
-                {
-                    return node;
-                }
+                node.removeChild(child.name);
             }
-
-            return null;
         }
 #endif
 
